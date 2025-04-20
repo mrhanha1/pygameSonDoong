@@ -23,6 +23,13 @@ class player:
         self.frame_index=0
         self.last_update=pygame.time.get_ticks()
         self.avatar = self.animations[self.state][0]
+        self.animator=Animator({
+            "idle": ("assets/images/idle.png", 2),
+            "walk": ("assets/images/walk.png", 8),
+            "jump": ("assets/images/jump.png", 4),
+            "fall": ("assets/images/fall.png", 4),
+            "dead": ("assets/images/dead.png", 8)
+            }, scale_factor=2, animation_speed=700)
         
         #PlaYER moVEment VAriaAble
         self.move_speed=move_speed
