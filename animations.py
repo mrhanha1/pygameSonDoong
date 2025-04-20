@@ -4,16 +4,15 @@ def cd_is_over (last_time, duration):
     "return True if from last time to now is equal or longer than durration"
     return pygame.time.get_ticks() - last_time >= duration
 class Animator:
-    def __init__(self, animations_data: dict, scale_factor=2, animation_speed=700):
+    def __init__(self, animations_data: dict, scale_factor=1, animation_speed=800):
         """
-        animations_data: dict dạng { "state": ("path_to_sprite", frame_count) }
-        scale_factor: hệ số phóng to
+        animations_data: dict dạng { "state": ("path", frame_count) }
         animation_speed: tổng thời gian để chạy hết 1 animation (ms)
         """
         self.scale_factor = scale_factor
         self.animation_speed = animation_speed
         self.animations = {}
-        self.state = "idle"
+        self.state = 'idle'
         self.load_animations(animations_data)
         self.frame_index = 0
         self.last_update = pygame.time.get_ticks()
@@ -21,8 +20,6 @@ class Animator:
 
         self.frame_w = 31
         self.frame_h = 31
-
-        
 
     def load_animations(self, data):
         for state, (path, number_frame) in data.items():

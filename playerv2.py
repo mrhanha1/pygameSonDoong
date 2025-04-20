@@ -18,16 +18,13 @@ class player:
         self.rect=pygame.Rect(x, y, 15*scale_factor, 25*scale_factor)
         
         self.animation_speed=700
-        self.state="idle"
-        self.frame_index=0
-        self.last_update=pygame.time.get_ticks()
         self.animator=Animator({
             "idle": ("assets/images/idle.png", 2),
             "walk": ("assets/images/walk.png", 8),
             "jump": ("assets/images/jump.png", 4),
             "fall": ("assets/images/fall.png", 4),
-            "dead": ("assets/images/dead.png", 8)
-            }, scale_factor=2, animation_speed=700)
+            "dead": ("assets/images/dead.png", 8)}
+            , scale_factor, self.animation_speed)
         
         #PlaYER moVEment VAriaAble
         self.move_speed=move_speed
@@ -39,16 +36,34 @@ class player:
         self.is_knock_back=False
         #self.hitstop_timer=0
         #self.hitstop=False
-        
+
         self.isAlive=True
         self.hp=10
         self.last_hitted=pygame.time.get_ticks()
 
-
-    def update (self):
-        pass
+    def update_moving (self,grounds,d_time):
+        self.velocity.x=0
+        self.moving (grounds, d_time)
+        #GRAVITY
+        self.velocity.y += self.gravity*d_time
+        self.update_knockback(d_time)
+        """UPDATE MOVING AND COLLISION"""
+        self.rect.x += int(self.velocity.x*d_time)
+        self.in_collision_x(grounds)
+        
+        self.rect.y +=int(self.velocity.y*d_time)
+        self.in_collision_y(grounds)
+        """ANIMATION CONDITION AND UPDATE"""
+        if self.isGrounded and self.velocity.x==0:
+            self.animator.state="idle"
+        elif self.velocity.y<0:
+            self.animator.state="jump"
+        elif self.velocity.y>0:
+            self.animator.state='fall'
+        #print(self.state)
+        self.animator.play_animate(self.velocity.x)
     """MOVING AND GROUND COLLISION"""
-    def in_move (self, grounds,d_time):
+    def moving (self, grounds,d_time):
         """this need to put in running loop game"""
         key_in=pygame.key.get_pressed()
         self.velocity.x=0
@@ -69,31 +84,7 @@ class player:
             self.velocity.x = self.move_speed #sang phải
             self.state="walk"
             #print(self.move_speed)
-        #GRAVITY
-        self.velocity.y += self.gravity*d_time
-        self.update_knockback(d_time)
-        """UPDATE MOVING AND COLLISION"""
-        self.rect.x += int(self.velocity.x*d_time)
-        self.in_collision_x(grounds)
         
-        self.rect.y +=int(self.velocity.y*d_time)
-        self.in_collision_y(grounds)
-        """ANIMATION CONDITION AND UPDATE"""
-        if self.isGrounded and self.velocity.x==0:
-            self.animator.state="idle"
-        elif self.velocity.y<0:
-            self.animator.state="jump"
-        elif self.velocity.y>0:
-            self.animator.state='fall'
-        #print(self.state)
-        self.animator.play_animate(self.velocity.x)
-        """
-        #GIỚI HẠN DI CHUYỂN NHÂN VẬT
-        if self.y >=HEIGHT - 100:
-            self.y = HEIGHT - 100
-            self.velocity_y = 0
-            self.isGrounded = True
-    """
     def check_collision(self,tiles):
         return [tile for tile in tiles if self.rect.colliderect(tile.rect)]
     def in_collision_x (self, tiles):
@@ -140,7 +131,7 @@ class player:
                 return obj.type  # trả về loại đối tượng bị va chạm
         return None  # k va chạm
     
-    def in_update_hit(self, enemies, hazards,d_time): #xử lý va chạm
+    def update_hit(self, enemies, hazards,d_time): #xử lý va chạm
         """this need to put in running loop game"""
 
         collision_type = self.in_check_hit(enemies + hazards)

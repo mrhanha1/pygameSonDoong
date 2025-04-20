@@ -43,7 +43,7 @@ map=TileMap("assets/tilemap/testmap.csv")
 
 running = True
 while running:
-    d_time=min(CLOCK.tick(100)/1000*FPS,2)
+    d_time=min(CLOCK.tick(FPS)/1000*FPS,2)
     #print(d_time) #SHOW DELTA TIME TO DEBUG
     screen.fill(BGCOLOR)
     for event in pygame.event.get():
@@ -58,8 +58,9 @@ while running:
     for h in hazards:
         h.draw(screen)
     
-    p1.in_move(map.tiles,d_time)
-    p1.in_update_hit(enemies, hazards, d_time)
+    #p1.in_move(map.tiles,d_time)
+    p1.update_moving(map.tiles, d_time)
+    p1.update_hit(enemies, hazards, d_time)
     p1.draw(screen)
     map.draw_map(screen)
     #pygame.draw.rect(screen, BLUE, p1.rect) #SHOW HITBOX
