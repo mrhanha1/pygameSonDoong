@@ -18,12 +18,7 @@ FPS=100
 
 """KHỞI TẠO CÁC BIẾN ĐẦU TIÊN"""
 p1=player(WIDTH//2, HEIGHT-400)
-gameGrounds=[
-    groundOBJ(200, 800, 100, 200),
-    groundOBJ(500, 600, 100, 200),
-    groundOBJ(1100, 600, 100, 200),
-    groundOBJ(0, 900, 1920, 500)
-]
+
 enemies=[
     enemy(200, 500),
     enemy(850, 800)
@@ -50,8 +45,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    for ground in gameGrounds:
-        ground.draw(screen)
+    map.draw_map(screen)
     for e in enemies:
         e.draw(screen)
         e.in_moving(p1)
@@ -62,7 +56,7 @@ while running:
     p1.update_moving(map.tiles, d_time)
     p1.update_hit(enemies, hazards, d_time)
     p1.draw(screen)
-    map.draw_map(screen)
+    
     #pygame.draw.rect(screen, BLUE, p1.rect) #SHOW HITBOX
     fps = CLOCK.get_fps()
     #print(f"FPS: {fps:.2f}") #SHOW FPS

@@ -6,6 +6,7 @@ RED=(255,0,0)
 GREEN=(0,255,0)
 BLUE=(0,0,255)
 WHITE=(255,255,255)
+
 class groundOBJ:
     """create a rectangular object as a solid ground that block movement of character, 
     x and y is the topleft position of this object"""
@@ -20,7 +21,7 @@ class game_object:
     """create an root rectangular object that has a object type, the object type can be choose from this list: enemy, hazard, deadzone"""
     
     def __init__(self, x, y, width, height, obj_type, color):
-        self.rect=pygame.Rect(x, x, width, height)
+        self.rect=pygame.Rect(x, y, width, height)
         self.type=obj_type
         self.color=color
     def draw (self, screen):

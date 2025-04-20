@@ -50,7 +50,6 @@ class player:
         """UPDATE MOVING AND COLLISION"""
         self.rect.x += int(self.velocity.x*d_time)
         self.in_collision_x(grounds)
-        
         self.rect.y +=int(self.velocity.y*d_time)
         self.in_collision_y(grounds)
         """ANIMATION CONDITION AND UPDATE"""
@@ -109,7 +108,6 @@ class player:
                     self.velocity.y = 0 #DỪNG DI CHUYỂN CHIỀU DỌC
                     self.isGrounded=True
 
-
     """OTHER GAME OBJECT COLLISION"""
     def update_knockback(self,d_time):
         if self.is_knock_back:
@@ -150,7 +148,6 @@ class player:
                 self.isAlive=False
                 self.velocity.x = 0
                 self.velocity.y = 0
-                #self.last_hitted=pygame.time.get_ticks()
 
     def draw (self, screen):
         screen.blit(self.animator.get_avatar(),(self.rect.left-7*self.scale_factor,self.rect.top-6*self.scale_factor))
