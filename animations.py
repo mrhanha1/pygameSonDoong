@@ -1,5 +1,8 @@
 import pygame
 
+def cd_is_over (last_time, duration):
+    "return True if from last time to now is equal or longer than durration"
+    return pygame.time.get_ticks() - last_time >= duration
 class Animator:
     def __init__(self, animations_data: dict, scale_factor=1, animation_speed=700):
         """
@@ -16,8 +19,8 @@ class Animator:
         self.last_update = pygame.time.get_ticks()
         self.avatar = self.animations[self.state][0]
 
-        self.frame_w = 0
-        self.frame_h = 0
+        self.frame_w = 31
+        self.frame_h = 31
 
         
 
@@ -25,37 +28,28 @@ class Animator:
         for state, (path, number_frame) in data.items():
             self.animations[state] = self.load_frames(path, number_frame)
 
-    def load_frames(self, path, frame_count):
-        sprite_sheet = pygame.image.load(path).convert_alpha()
-        frame_w = sprite_sheet.get_width() // frame_count
-        frame_h = sprite_sheet.get_height()
-        self.frame_w, self.frame_h = frame_w, frame_h
-
-        frames = [
-            sprite_sheet.subsurface((i * frame_w, 0, frame_w, frame_h))
-            for i in range(frame_count)
-        ]
+    def load_frames(self, path, number_frame):
+        """load the image sheet of animation from PATH and cut it to a list with NUMBER_FRAME of frame, 
+        scale your character and all frame if your scale_factor is different 1"""
+        
+        sprite_sheet = pygame.image.load(path)
+        self.frame_w = sprite_sheet.get_width() // number_frame
+        self.frame_h = sprite_sheet.get_height()
+        list_frame = [sprite_sheet.subsurface((i*self.frame_w, 0, self.frame_w, self.frame_h)) for i in range(number_frame)]
         if self.scale_factor != 1:
-            frames = [
-                pygame.transform.scale(f, (frame_w * self.scale_factor, frame_h * self.scale_factor))
-                for f in frames
-            ]
-        return frames
+            list_frame = [pygame.transform.scale(frame, (self.frame_w * self.scale_factor, self.frame_h * self.scale_factor))
+                          for frame in list_frame]
+        return list_frame
 
     def in_animate(self, velocity_x):
-        now = pygame.time.get_ticks()
-        total_frames = len(self.animations[self.state])
-        delay = self.animation_speed // total_frames
-
-        if now - self.last_update >= delay:
-            self.frame_index = (self.frame_index + 1) % total_frames
-            self.last_update = now
-
-            frame = self.animations[self.state][self.frame_index]
+        """this need to put in running loop game"""
+        if cd_is_over(self.last_update, self.animation_speed // len(self.animations[self.state])):
+            self.frame_index = (self.frame_index + 1) % len(self.animations[self.state])
             if velocity_x < 0:
-                self.avatar = pygame.transform.flip(frame, True, False)
+                self.avatar = pygame.transform.flip(self.animations[self.state][self.frame_index], True, False)
             else:
-                self.avatar = frame
+                self.avatar = self.animations[self.state][self.frame_index]
+            self.last_update = pygame.time.get_ticks()
 
     def get_frame(self):
         return self.avatar
