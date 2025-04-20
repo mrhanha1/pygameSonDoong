@@ -19,10 +19,8 @@ class player:
         
         self.animation_speed=700
         self.state="idle"
-        self.load_animation()
         self.frame_index=0
         self.last_update=pygame.time.get_ticks()
-        self.avatar = self.animations[self.state][0]
         self.animator=Animator({
             "idle": ("assets/images/idle.png", 2),
             "walk": ("assets/images/walk.png", 8),
@@ -46,48 +44,6 @@ class player:
         self.hp=10
         self.last_hitted=pygame.time.get_ticks()
 
-    def load_animation (self):
-        """load all stop frame of all state, only need load 1 time when you initial your character"""
-        
-        self.animations = {
-            "idle" : self.load_frames ("assets/images/idle.png", 2),
-            "walk" : self.load_frames ("assets/images/walk.png", 8),
-            "jump" : self.load_frames ("assets/images/jump.png", 4),
-            "fall" : self.load_frames ("assets/images/fall.png", 4),
-            "dead" : self.load_frames ("assets/images/dead.png", 8)
-            #"iwalk": [pygame.transform.flip(frame, True, False) for frame in self.load_frames ("assets/images/walk.png", 8)]
-        }
-        #if self.scale_factor != 1:
-            #self.frame_w *= self.scale_factor
-            #self.frame_h *= self.scale_factor
-
-            
-    def load_frames (self, path, number_frame):
-        """load the image sheet of animation from PATH and cut it to a list with NUMBER_FRAME of frame, 
-        this also scale your character and all frame if your scale_factor is different 1"""
-        sprite_sheet = pygame.image.load(path) #gán hình ảnh bằng sprite_sheet
-        self.frame_w = sprite_sheet.get_width() // number_frame
-        self.frame_h = sprite_sheet.get_height()
-        list_frame=[]
-        [list_frame.append(sprite_sheet.subsurface((i*self.frame_w,0,self.frame_w,self.frame_h))) for i in range(number_frame)]
-        if self.scale_factor!=1:
-            for i in range (len(list_frame)):
-                list_frame[i]=pygame.transform.scale(list_frame[i],
-                                                     (self.frame_w*self.scale_factor,
-                                                      self.frame_h*self.scale_factor))
-        return list_frame
-
-#ANIMATION NHÂN VẬT
-    def in_animate (self):
-        """this need to put in running loop game"""
-        if cd_is_over(self.last_update, self.animation_speed//len(self.animations[self.state])):
-            self.frame_index = (self.frame_index + 1) %len(self.animations[self.state]) #kiểm soát vòng lặp frame index
-            if self.velocity.x<0:
-                self.avatar = pygame.transform.flip(self.animations[self.state][self.frame_index], True, False)
-            else:
-                self.avatar = self.animations[self.state][self.frame_index]
-            #animations is dict that contain state name : list of frame
-            self.last_update=pygame.time.get_ticks()
 
     def update (self):
         pass
@@ -124,13 +80,13 @@ class player:
         self.in_collision_y(grounds)
         """ANIMATION CONDITION AND UPDATE"""
         if self.isGrounded and self.velocity.x==0:
-            self.state="idle"
+            self.animator.state="idle"
         elif self.velocity.y<0:
-            self.state="jump"
+            self.animator.state="jump"
         elif self.velocity.y>0:
-            self.state='fall'
+            self.animator.state='fall'
         #print(self.state)
-        self.in_animate()
+        self.animator.play_animate(self.velocity.x)
         """
         #GIỚI HẠN DI CHUYỂN NHÂN VẬT
         if self.y >=HEIGHT - 100:
@@ -206,4 +162,4 @@ class player:
                 #self.last_hitted=pygame.time.get_ticks()
 
     def draw (self, screen):
-        screen.blit(self.avatar,(self.rect.left-7*self.scale_factor,self.rect.top-6*self.scale_factor))
+        screen.blit(self.animator.get_avatar(),(self.rect.left-7*self.scale_factor,self.rect.top-6*self.scale_factor))
