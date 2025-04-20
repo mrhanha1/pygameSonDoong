@@ -1,9 +1,9 @@
 import pygame, csv, os
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, image,x,y,spritesheet):
-        super().__init__(self)
-        self.image=spritesheet.parse_sprite(image)
+    def __init__(self, path,x,y):
+        super().__init__()
+        self.image=pygame.image.load(path)
         self.rect=self.image.get_rect()
         self.rect.x=x
         self.rect.y=y
@@ -12,44 +12,48 @@ class Tile(pygame.sprite.Sprite):
         screen.blit(self.image,(self.rect.x,self.rect.y))
 
 
-class TileMap():
-    def __init__(self,filename,spritesheet):
-        self.tile_size=16
-        self.start_x,self.start_y=0,0
-        self.spritesheet=spritesheet
-        self.tiles=self.load_tiles(filename)
-        self.map_surface=pygame.Surface((self.map_w,self.map_h))
-        self.map_surface.set_colorkey((0,0,0))
-        self.load_map()
+class TileMap:
+    def __init__(self, filepath):
+        """create a tilemap with map in .csv file in filepath"""
+        self.tile_size = 60
+        self.start_x, self.start_y = 0, 0
+        self.tiles = self.load_tiles(filepath)
         
+        self.map_surface = pygame.Surface((self.map_w, self.map_h)) #cai nay phai chay sau load tiles
+        self.map_surface.set_colorkey((0, 0, 0)) #key mau den của nền
+        
+        self.load_map()
+
     def draw_map(self, surface):
         surface.blit(self.map_surface,(0,0))
-        
+
     def load_map(self):
+        """this just need to load 1 time before game running"""
         for tile in self.tiles:
             tile.draw(self.map_surface)
-        
-    def read_csv(self,filename):
-        map=[]
-        with open(os.path.join(filename)) as data:
-            data=csv.reader(data, delimiter=',')
+
+    def read_csv(self, filepath):
+        map = []
+        with open(os.path.join(filepath)) as data:
+            data = csv.reader(data, delimiter=',')
             for row in data:
                 map.append(list(row))
-        return map
+        return map #2d list
 
-    def load_tiles(self,filename):
-        tiles=[]
-        map=self.read_csv(filename)
-        x,y=0,0
-        for row in map:
-            x=0
+    def load_tiles(self, filepath):
+        tiles = []
+        map_data = self.read_csv(filepath)
+        x, y = 0, 0
+        for row in map_data:
+            x = 0
             for tile in row:
-                if tile=='1':
-                    self.start_x, self.start_y = x*self.tile_size, y*self.tile_size
-                elif tile=='0':
-                    tiles.append(Tile("assets/mossyblock.png", x*self.tile_size, y*self.tile_size, self.spritesheet))
-                x+=1#cot tiep theo
-            y+=1 #hang tiep theo
-        self.map_w=x*self.tile_size
-        self.map_h=y*self.tile_size
+                if tile == '-1':
+                    #nếu tile này không có gì để vẽ thì chỉ tăng x và y chọn đến tile tiếp theo
+                    self.start_x, self.start_y = x * self.tile_size, y * self.tile_size 
+                elif tile == '0':
+                    tiles.append(Tile("assets/mossyblock.png", x * self.tile_size, y * self.tile_size))
+                x += 1
+            y += 1
+        self.map_w = x * self.tile_size
+        self.map_h = y * self.tile_size
         return tiles

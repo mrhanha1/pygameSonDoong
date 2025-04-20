@@ -3,7 +3,6 @@ from playerv2 import player
 from setting import WIDTH, HEIGHT
 from gameObjectv2 import groundOBJ, enemy, hazard
 from tile_map import *
-from spritesheet import Spritesheet
 #ĐỊNH NGHĨA CÁC MÀU CẦN DÙNG
 GRAY=(200, 200, 200)
 BROWN=(139,93,0)
@@ -11,14 +10,14 @@ RED=(255,0,0)
 GREEN=(0,255,0)
 BLUE=(0,0,255)
 WHITE=(255,255,255)
-
+BGCOLOR=(25,40,30)
 
 CLOCK=pygame.time.Clock()
 FPS=100
 
 
 """KHỞI TẠO CÁC BIẾN ĐẦU TIÊN"""
-p1=player(WIDTH//2, HEIGHT-300)
+p1=player(WIDTH//2, HEIGHT-400)
 gameGrounds=[
     groundOBJ(200, 800, 100, 200),
     groundOBJ(500, 600, 100, 200),
@@ -32,14 +31,13 @@ enemies=[
 hazards=[
     hazard(700,500)
     ]
-spritesheet=Spritesheet("spritesheet.png")
-map=TileMap("assets/tilemap/testmap.csv", spritesheet)
 
 """KHỞI TẠO ĐẦU TIÊN"""
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("GÊm sỐ 1")
 
+map=TileMap("assets/tilemap/testmap.csv")
 
 """VÒNG LẶP GAME"""
 
@@ -47,7 +45,7 @@ running = True
 while running:
     d_time=min(CLOCK.tick(100)/1000*FPS,2)
     #print(d_time) #SHOW DELTA TIME TO DEBUG
-    screen.fill(GRAY)
+    screen.fill(BGCOLOR)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -60,9 +58,10 @@ while running:
     for h in hazards:
         h.draw(screen)
     
-    p1.in_move(gameGrounds,enemies, hazards,d_time)
+    p1.in_move(map.tiles,d_time)
     p1.in_update_hit(enemies, hazards, d_time)
     p1.draw(screen)
+    map.draw_map(screen)
     #pygame.draw.rect(screen, BLUE, p1.rect) #SHOW HITBOX
     fps = CLOCK.get_fps()
     #print(f"FPS: {fps:.2f}") #SHOW FPS

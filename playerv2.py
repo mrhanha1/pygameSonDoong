@@ -1,6 +1,7 @@
 import pygame
-from setting import WIDTH, HEIGHT
+#from setting import WIDTH, HEIGHT
 from pygame.math import Vector2
+from animations import Animator
 def cd_is_over (last_time, duration):
     "return True if from last time to now is equal or longer than durration"
     return pygame.time.get_ticks() - last_time >= duration
@@ -68,7 +69,7 @@ class player:
                                                      (self.frame_w*self.scale_factor,
                                                       self.frame_h*self.scale_factor))
         return list_frame
-        
+
 #ANIMATION NHÂN VẬT
     def in_animate (self):
         """this need to put in running loop game"""
@@ -81,8 +82,10 @@ class player:
             #animations is dict that contain state name : list of frame
             self.last_update=pygame.time.get_ticks()
 
+    def update (self):
+        pass
     """MOVING AND GROUND COLLISION"""
-    def in_move (self, grounds,enemies,hazards,d_time):
+    def in_move (self, grounds,d_time):
         """this need to put in running loop game"""
         key_in=pygame.key.get_pressed()
         self.velocity.x=0
@@ -128,23 +131,27 @@ class player:
             self.velocity_y = 0
             self.isGrounded = True
     """
-    def in_collision_x (self, grounds):
-        for ground in grounds:
-            if self.rect.colliderect(ground.rect):
+    def check_collision(self,tiles):
+        return [tile for tile in tiles if self.rect.colliderect(tile.rect)]
+    def in_collision_x (self, tiles):
+        colliders=self.check_collision(tiles)
+        for obj in colliders:
+            if self.rect.colliderect(obj.rect):
                 if self.velocity.x>0:
-                    self.rect.right=ground.rect.left
+                    self.rect.right=obj.rect.left
                 elif self.velocity.x<0:
-                    self.rect.left=ground.rect.right
+                    self.rect.left=obj.rect.right
                     self.velocity.x = 0 #DỪNG DI CHUYỂN
-    def in_collision_y (self, grounds):
-        for ground in grounds:
-            if self.rect.colliderect(ground.rect):
+    def in_collision_y (self, tiles):
+        colliders=self.check_collision(tiles)
+        for obj in colliders:
+            if self.rect.colliderect(obj.rect):
                 if self.velocity.y<0:
-                    self.rect.top = ground.rect.bottom
+                    self.rect.top = obj.rect.bottom
                     self.velocity.y=0
                     #pygame.time.delay(500)
                 if self.velocity.y>0:
-                    self.rect.bottom = ground.rect.top #ĐẶT NV LÊN NỀN
+                    self.rect.bottom = obj.rect.top #ĐẶT NV LÊN NỀN
                     self.velocity.y = 0 #DỪNG DI CHUYỂN CHIỀU DỌC
                     self.isGrounded=True
 
