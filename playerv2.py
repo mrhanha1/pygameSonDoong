@@ -129,7 +129,7 @@ class player:
                 return obj.type  # trả về loại đối tượng bị va chạm
         return None  # k va chạm
     
-    def update_hit(self, enemies, hazards,d_time): #xử lý va chạm
+    def update_hit(self, enemies, hazards): #xử lý va chạm
         """this need to put in running loop game"""
 
         collision_type = self.in_check_hit(enemies + hazards)

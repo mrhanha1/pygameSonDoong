@@ -17,7 +17,6 @@ class Animator:
         self.frame_index = 0
         self.last_update = pygame.time.get_ticks()
         self.avatar = self.animations[self.state][0]
-
         self.frame_w = 31
         self.frame_h = 31
 

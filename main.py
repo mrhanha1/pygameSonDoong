@@ -54,7 +54,7 @@ while running:
     
     #p1.in_move(map.tiles,d_time)
     p1.update_moving(map.tiles, d_time)
-    p1.update_hit(enemies, hazards, d_time)
+    p1.update_hit(enemies, hazards)
     p1.draw(screen)
     
     #pygame.draw.rect(screen, BLUE, p1.rect) #SHOW HITBOX
