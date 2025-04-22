@@ -8,13 +8,16 @@ class Tile(pygame.sprite.Sprite):
         self.rect.x=x
         self.rect.y=y
         
+
     def draw(self,screen):
         screen.blit(self.image,(self.rect.x,self.rect.y))
-
+    
 
 class TileMap:
     def __init__(self, filepath):
         """create a tilemap with map in .csv file in filepath"""
+        #tile grid=16 -> tile size =60
+        #tile grid = 64 -> tile size = 15
         self.tile_size = 60
         self.start_x, self.start_y = 0, 0
         self.tiles = self.load_tiles(filepath)
@@ -22,10 +25,11 @@ class TileMap:
         self.map_surface = pygame.Surface((self.map_w, self.map_h)) #cai nay phai chay sau load tiles
         self.map_surface.set_colorkey((0, 0, 0)) #key mau den của nền
         
-        self.load_map()
+        #self.load_map()
 
     def draw_map(self, surface):
-        surface.blit(self.map_surface,(0,0))
+        for tile in self.tiles:
+            tile.draw(surface)
 
     def load_map(self):
         """this just need to load 1 time before game running"""
