@@ -3,6 +3,7 @@ from playerv2 import player
 from setting import WIDTH, HEIGHT
 from gameObjectv2 import enemy, hazard
 from tile_map import TileMap
+from level import LevelManager
 #ĐỊNH NGHĨA CÁC MÀU CẦN DÙNG
 GRAY=(200, 200, 200)
 BROWN=(139,93,0)
@@ -18,8 +19,17 @@ FPS=100
 
 """KHỞI TẠO CÁC BIẾN ĐẦU TIÊN"""
 
-p1=player(WIDTH//2, HEIGHT-400)
-
+p1=player(0,0,scale_factor=2)
+map=TileMap("assets/tilemap/lv1_test.csv")
+level_list_data= [
+    ("assets/tilemap/lv1_test.csv",
+     {"start": (800,900),
+      "end1": (1900,400)}),
+    ("testmap.csv",
+     {"start": (800,800),
+      "end1": (1900,400)})
+    ]
+levelmanager=LevelManager(level_list_data, p1)
 
 enemies=[
     enemy(200, 500),
@@ -34,8 +44,11 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("GÊm sỐ 1")
 
-map=TileMap("assets/tilemap/testmap.csv")
-
+font = pygame.font.SysFont(None, 48)
+paused=False
+def draw_pause_menu():
+    text = font.render("Paused - Press R to Resume", True, (255, 255, 255))
+    screen.blit(text, (200, 250))
 """VÒNG LẶP GAME"""
 
 running = True
@@ -46,21 +59,33 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
-    map.draw_map(screen)
+            # Nhấn ESC để pause
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+               paused = True
+            if event.key == pygame.K_r:# Resume khi nhấn R
+               paused = False
+    #map.draw_map(screen)
+    need_level_refresh=False
+    if need_level_refresh:
+        levelmanager.go_to_level(0, 'start')
+        need_level_refresh=False
+    levelmanager.level.draw(screen)
     for e in enemies:
         e.draw(screen)
         e.in_moving(p1)
     for h in hazards:
         h.draw(screen)
 
-    #p1.in_move(map.tiles,d_time)
-    p1.update_moving(map.tiles, d_time)
-    p1.update_hit(enemies, hazards)
+    
     p1.draw(screen)
-    
-    
-    #pygame.draw.rect(screen, BLUE, p1.rect) #SHOW HITBOX
+    if paused:
+        draw_pause_menu()
+    else:
+        p1.update_moving(levelmanager.level.get_tiles(), d_time)
+        p1.update_hit(enemies, hazards)
+        
+    #pygame.draw.rect(screen, WHITE, p1.rect) #SHOW HITBOX
     fps = CLOCK.get_fps()
     #print(f"FPS: {fps:.2f}") #SHOW FPS
     pygame.display.update() #update màn hình

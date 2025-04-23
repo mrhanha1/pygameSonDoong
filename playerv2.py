@@ -10,7 +10,7 @@ class player:
     x and y is the topleft position of player when game start,
     the size of player depend on size of .png image on animation and scale factor"""
     
-    def __init__(self, x, y, move_speed=8, scale_factor=3):
+    def __init__(self, x, y, scale_factor=2,move_speed=8):
         
         self.frame_w = 31 #self.sprite_sheet.get_width() // self.num_frames
         self.frame_h = 31 #self.sprite_sheet.get_height()
@@ -30,7 +30,7 @@ class player:
         self.move_speed=move_speed
         self.velocity=Vector2(0,0)
         self.gravity=0.35
-        self.jump_force=-12
+        self.jump_force=-10
         self.isGrounded=False
         self.knockback_timer=0
         self.is_knock_back=False
@@ -43,7 +43,7 @@ class player:
 
     def update_moving (self,grounds,d_time):
         self.velocity.x=0
-        self.moving (grounds, d_time)
+        self.moving (d_time)
         #GRAVITY
         self.velocity.y += self.gravity*d_time
         self.update_knockback(d_time)
@@ -55,14 +55,17 @@ class player:
         """ANIMATION CONDITION AND UPDATE"""
         if self.isGrounded and self.velocity.x==0:
             self.animator.state="idle"
+            print("idle")
         elif self.velocity.y<0:
             self.animator.state="jump"
+            print("jumping")
         elif self.velocity.y>0:
             self.animator.state='fall'
-        #print(self.state)
+            print("falling")
+        
         self.animator.play_animate(self.velocity.x)
     """MOVING AND GROUND COLLISION"""
-    def moving (self, grounds,d_time):
+    def moving (self,d_time):
         """this need to put in running loop game"""
         key_in=pygame.key.get_pressed()
         self.velocity.x=0
@@ -77,11 +80,11 @@ class player:
         #MOVING
         if key_in[pygame.K_LEFT]:
             self.velocity.x = -self.move_speed #sang trái
-            self.state="walk"
+            self.animator.state="walk"
             #print(self.move_speed)
         if key_in[pygame.K_RIGHT]:
             self.velocity.x = self.move_speed #sang phải
-            self.state="walk"
+            self.animator.state="walk"
             #print(self.move_speed)
         
     def check_collision(self,tiles):
@@ -144,7 +147,7 @@ class player:
                 
             elif collision_type == "hazard":  # Chạm vật nguy hiểm (nước/gai)
                 print("💀 Chết",pygame.time.get_ticks())
-                self.state='dead'
+                self.animator.state='dead'
                 self.isAlive=False
                 self.velocity.x = 0
                 self.velocity.y = 0

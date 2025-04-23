@@ -56,6 +56,14 @@ class TileMap:
                     self.start_x, self.start_y = x * self.tile_size, y * self.tile_size 
                 elif tile == '0':
                     tiles.append(Tile("assets/mossyblock.png", x * self.tile_size, y * self.tile_size))
+                elif tile == '1':
+                    tiles.append(Tile("assets/stoneblock.png", x * self.tile_size, y * self.tile_size))
+                elif tile == '2':
+                    tiles.append(Tile("assets/vineblock.png", x * self.tile_size, y * self.tile_size))
+                elif tile == '3':
+                    tiles.append(Tile("assets/vinevineblock.png", x * self.tile_size, y * self.tile_size))
+                elif tile == '4':
+                    tiles.append(Tile("assets/wetstoneblock.png", x * self.tile_size, y * self.tile_size))
                 x += 1
             y += 1
         self.map_w = x * self.tile_size
