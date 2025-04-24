@@ -2,9 +2,8 @@ import pygame
 #from setting import WIDTH, HEIGHT
 from pygame.math import Vector2
 from animations import Animator
-def cd_is_over (last_time, duration):
-    "return True if from last time to now is equal or longer than durration"
-    return pygame.time.get_ticks() - last_time >= duration
+from ground_collision import in_collision_x, in_collision_y
+from setting import cd_is_over
 class player:
     """create a player with default moving input method and animation |
     x and y is the topleft position of player when game start,
@@ -49,9 +48,9 @@ class player:
         self.update_knockback(d_time)
         """UPDATE MOVING AND COLLISION"""
         self.rect.x += int(self.velocity.x*d_time)
-        self.in_collision_x(grounds)
-        self.rect.y +=int(self.velocity.y*d_time)
-        self.in_collision_y(grounds)
+        in_collision_x(self, grounds)
+        self.rect.y += int(self.velocity.y*d_time)
+        in_collision_y(self, grounds)
         """ANIMATION CONDITION AND UPDATE"""
         if self.isGrounded and self.velocity.x==0:
             self.animator.state="idle"
@@ -86,30 +85,6 @@ class player:
             self.velocity.x = self.move_speed #sang phải
             self.animator.state="walk"
             #print(self.move_speed)
-        
-    def check_collision(self,tiles):
-        return [tile for tile in tiles if self.rect.colliderect(tile.rect)]
-    def in_collision_x (self, tiles):
-        colliders=self.check_collision(tiles)
-        for obj in colliders:
-            if self.rect.colliderect(obj.rect):
-                if self.velocity.x>0:
-                    self.rect.right=obj.rect.left
-                elif self.velocity.x<0:
-                    self.rect.left=obj.rect.right
-                    self.velocity.x = 0 #DỪNG DI CHUYỂN
-    def in_collision_y (self, tiles):
-        colliders=self.check_collision(tiles)
-        for obj in colliders:
-            if self.rect.colliderect(obj.rect):
-                if self.velocity.y<0:
-                    self.rect.top = obj.rect.bottom
-                    self.velocity.y=0
-                    #pygame.time.delay(500)
-                if self.velocity.y>0:
-                    self.rect.bottom = obj.rect.top #ĐẶT NV LÊN NỀN
-                    self.velocity.y = 0 #DỪNG DI CHUYỂN CHIỀU DỌC
-                    self.isGrounded=True
 
     """OTHER GAME OBJECT COLLISION"""
     def update_knockback(self,d_time):

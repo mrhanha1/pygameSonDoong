@@ -1,8 +1,6 @@
 import pygame
+from setting import cd_is_over
 
-def cd_is_over (last_time, duration):
-    "return True if from last time to now is equal or longer than durration"
-    return pygame.time.get_ticks() - last_time >= duration
 class Animator:
     def __init__(self, animations_data: dict, scale_factor=1, animation_speed=800):
         """

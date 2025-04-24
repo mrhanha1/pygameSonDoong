@@ -22,7 +22,8 @@ class LevelManager:
         self.level_list = level_list
         self.level_index = 0
         self.player = player
-        #self.load_level(0, spawnpoint_name='start')  # spawn mặc định
+        self.need_refresh=False
+        self.load_level(0, spawnpoint_name='start')  # spawn mặc định
 
     def load_level(self, lvindex, spawnpoint_name):
         """load the level number 'lvindex' in level data and place player to spawnpoint [spawnpoint_name]"""
@@ -42,4 +43,11 @@ class LevelManager:
             #raise ValueError(f"Spawn point '{spawnpoint_name}' not found in level {lvindex}")
     def go_to_level(self, lvindex, spawnpoint_name):
         self.load_level(lvindex, spawnpoint_name)
+    def change_level (self, lvindex, spawnpoint_name):
+        
+        if self.player.rect.colliderect(gate.rect):
+            self.need_refresh=True
+        if self.need_refresh:
+            self.go_to_level(lvindex, spawnpoint_name)
+            self.need_refresh=False
 

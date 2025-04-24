@@ -19,7 +19,7 @@ FPS=100
 
 """KHỞI TẠO CÁC BIẾN ĐẦU TIÊN"""
 
-p1=player(0,0,scale_factor=2)
+p1=player(0,0,2,4)
 map=TileMap("assets/tilemap/lv1_test.csv")
 level_list_data= [
     ("assets/tilemap/lv1_test.csv",
@@ -66,10 +66,7 @@ while running:
             if event.key == pygame.K_r:# Resume khi nhấn R
                paused = False
     #map.draw_map(screen)
-    need_level_refresh=False
-    if need_level_refresh:
-        levelmanager.go_to_level(0, 'start')
-        need_level_refresh=False
+    
     levelmanager.level.draw(screen)
     for e in enemies:
         e.draw(screen)
@@ -84,7 +81,7 @@ while running:
     else:
         p1.update_moving(levelmanager.level.get_tiles(), d_time)
         p1.update_hit(enemies, hazards)
-        
+
     #pygame.draw.rect(screen, WHITE, p1.rect) #SHOW HITBOX
     fps = CLOCK.get_fps()
     #print(f"FPS: {fps:.2f}") #SHOW FPS
