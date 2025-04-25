@@ -101,10 +101,10 @@ class player:
             else:
                 self.is_knock_back=False
                 self.knockback_timer=0
-    def in_check_hit (self, objects):
+    def in_check_hit (self, group):
         """RETURN THE OBJECT TYPE.
         *this need to put in running loop game"""
-        for obj in objects:
+        for obj in group:
             if self.rect.colliderect(obj.rect):
                 return obj.type  # trả về loại đối tượng bị va chạm
         return None  # k va chạm
@@ -121,7 +121,7 @@ class player:
                     pass
                 if entrance.index==4:
                     pass
-        collision_type = self.in_check_hit(enemies + hazards)
+        collision_type = self.in_check_hit(enemies) or self.in_check_hit(hazards)
 
         if cd_is_over(self.last_hitted, 1000):
             if collision_type == "enemy":  # Chạm quái vật

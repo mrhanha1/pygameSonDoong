@@ -16,7 +16,6 @@ BGCOLOR=(25,40,30)
 CLOCK=pygame.time.Clock()
 FPS=100
 
-
 """KHỞI TẠO CÁC BIẾN ĐẦU TIÊN"""
 
 p1=player(0,0,2,4)
@@ -31,19 +30,20 @@ level_list_data= [
     ]
 levelmanager=LevelManager(level_list_data, p1)
 
-enemies=[
-    enemy(200, 500),
-    enemy(850, 800)
-    ]
-hazards=[
-    hazard(700,500)
-    ]
-entrances=[
+
+enemies=pygame.sprite.Group()
+enemies.add(enemy(200, 500),
+            enemy(850, 800))
+hazards=pygame.sprite.Group()
+hazards.add(hazard(700,500))
+
+entrances=pygame.sprite.Group()
+entrances.add(
     entrance(-30, 0, 1,30,HEIGHT//2),
     entrance(-30, HEIGHT//2, 2,30,HEIGHT//2),
     entrance(WIDTH+30, 0, 3,30,HEIGHT//2),
     entrance(WIDTH+30, HEIGHT//2, 4,30,HEIGHT//2)
-    ]
+    )
 """KHỞI TẠO ĐẦU TIÊN"""
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
