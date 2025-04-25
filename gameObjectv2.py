@@ -39,10 +39,11 @@ class enemy (game_object):
         self.rect.y+=self.velocity.y
 
 class hazard (game_object):
-    
+
     def __init__(self, x, y, width=100, height=40):
         super().__init__(x, y, width, height, "hazard", BLUE)
-    
+
 class entrance (game_object):
-    def __init__(self, x, y,width= 20, height=200):
+    def __init__(self, x, y, index,width= 40, height=200):
         super().__init__(x,y,width,height,"entrance",WHITE)
+        self.index=index

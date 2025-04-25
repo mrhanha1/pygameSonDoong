@@ -1,5 +1,5 @@
 import pygame
-#from setting import WIDTH, HEIGHT
+from setting import WIDTH, HEIGHT
 from pygame.math import Vector2
 from animations import Animator
 from ground_collision import in_collision_x, in_collision_y
@@ -9,7 +9,7 @@ class player:
     x and y is the topleft position of player when game start,
     the size of player depend on size of .png image on animation and scale factor"""
     
-    def __init__(self, x, y, scale_factor=2,move_speed=8):
+    def __init__(self, x, y, scale_factor=2,move_speed=4):
         
         self.frame_w = 31 #self.sprite_sheet.get_width() // self.num_frames
         self.frame_h = 31 #self.sprite_sheet.get_height()
@@ -42,29 +42,31 @@ class player:
 
     def update_moving (self,grounds,d_time):
         self.velocity.x=0
-        self.moving (d_time)
+        self.moving()
         #GRAVITY
         self.velocity.y += self.gravity*d_time
         self.update_knockback(d_time)
         """UPDATE MOVING AND COLLISION"""
-        self.rect.x += int(self.velocity.x*d_time)
+        self.rect.x += int(self.velocity.x)*d_time
         in_collision_x(self, grounds)
-        self.rect.y += int(self.velocity.y*d_time)
+        self.rect.y += int(self.velocity.y)*d_time
         in_collision_y(self, grounds)
+        if self.rect.left<=0 or self.rect.right>=WIDTH:
+            self.velocity.x=0
         """ANIMATION CONDITION AND UPDATE"""
         if self.isGrounded and self.velocity.x==0:
             self.animator.state="idle"
-            print("idle")
+            #print("idle")
         elif self.velocity.y<0:
             self.animator.state="jump"
-            print("jumping")
+            #print("jumping")
         elif self.velocity.y>0:
             self.animator.state='fall'
-            print("falling")
+            #print("falling")
         
         self.animator.play_animate(self.velocity.x)
     """MOVING AND GROUND COLLISION"""
-    def moving (self,d_time):
+    def moving (self):
         """this need to put in running loop game"""
         key_in=pygame.key.get_pressed()
         self.velocity.x=0
@@ -107,10 +109,20 @@ class player:
                 return obj.type  # trả về loại đối tượng bị va chạm
         return None  # k va chạm
     
-    def update_hit(self, enemies, hazards): #xử lý va chạm
+    def update_hit(self, enemies, hazards, entrances): #xử lý va chạm
         """this need to put in running loop game"""
-
+        for entrance in entrances:
+            if self.rect.colliderect(entrance.rect):
+                if entrance.index==1:
+                    pass
+                if entrance.index==2:
+                    pass
+                if entrance.index==3:
+                    pass
+                if entrance.index==4:
+                    pass
         collision_type = self.in_check_hit(enemies + hazards)
+
         if cd_is_over(self.last_hitted, 1000):
             if collision_type == "enemy":  # Chạm quái vật
                 print("⚔️ Bị quái vật tấn công",pygame.time.get_ticks())
@@ -126,6 +138,7 @@ class player:
                 self.isAlive=False
                 self.velocity.x = 0
                 self.velocity.y = 0
+
 
     def draw (self, screen):
         screen.blit(self.animator.get_avatar(),(self.rect.left-7*self.scale_factor,self.rect.top-6*self.scale_factor))

@@ -41,13 +41,12 @@ class LevelManager:
         else:
             pass
             #raise ValueError(f"Spawn point '{spawnpoint_name}' not found in level {lvindex}")
-    def go_to_level(self, lvindex, spawnpoint_name):
-        self.load_level(lvindex, spawnpoint_name)
-    def change_level (self, lvindex, spawnpoint_name):
+
+    def go_to_level (self, lvindex, spawnpoint_name):
         
         if self.player.rect.colliderect(gate.rect):
             self.need_refresh=True
         if self.need_refresh:
-            self.go_to_level(lvindex, spawnpoint_name)
+            self.load_level(lvindex, spawnpoint_name)
             self.need_refresh=False
 

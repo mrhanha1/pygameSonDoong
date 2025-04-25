@@ -1,7 +1,7 @@
 import pygame
 from playerv2 import player
 from setting import WIDTH, HEIGHT
-from gameObjectv2 import enemy, hazard
+from gameObjectv2 import enemy, hazard, entrance
 from tile_map import TileMap
 from level import LevelManager
 #ĐỊNH NGHĨA CÁC MÀU CẦN DÙNG
@@ -38,7 +38,12 @@ enemies=[
 hazards=[
     hazard(700,500)
     ]
-
+entrances=[
+    entrance(-30, 0, 1,30,HEIGHT//2),
+    entrance(-30, HEIGHT//2, 2,30,HEIGHT//2),
+    entrance(WIDTH+30, 0, 3,30,HEIGHT//2),
+    entrance(WIDTH+30, HEIGHT//2, 4,30,HEIGHT//2)
+    ]
 """KHỞI TẠO ĐẦU TIÊN"""
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -53,6 +58,7 @@ def draw_pause_menu():
 
 running = True
 while running:
+
     d_time=min(CLOCK.tick(FPS)/1000*FPS,2)
     #print(d_time) #SHOW DELTA TIME TO DEBUG
     screen.fill(BGCOLOR)
@@ -80,7 +86,7 @@ while running:
         draw_pause_menu()
     else:
         p1.update_moving(levelmanager.level.get_tiles(), d_time)
-        p1.update_hit(enemies, hazards)
+        p1.update_hit(enemies, hazards, entrances)
 
     #pygame.draw.rect(screen, WHITE, p1.rect) #SHOW HITBOX
     fps = CLOCK.get_fps()

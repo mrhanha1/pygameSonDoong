@@ -1,7 +1,7 @@
 def check_collision(self,tiles):
     return [tile for tile in tiles if self.rect.colliderect(tile.rect)]
 def in_collision_x (self, tiles):
-    colliders=self.check_collision(tiles)
+    colliders=check_collision(self,tiles)
     for obj in colliders:
         if self.rect.colliderect(obj.rect):
             if self.velocity.x>0:
@@ -10,7 +10,7 @@ def in_collision_x (self, tiles):
                 self.rect.left=obj.rect.right
                 self.velocity.x = 0 #DỪNG DI CHUYỂN
 def in_collision_y (self, tiles):
-    colliders=self.check_collision(tiles)
+    colliders=check_collision(self,tiles)
     for obj in colliders:
         if self.rect.colliderect(obj.rect):
             if self.velocity.y<0:
