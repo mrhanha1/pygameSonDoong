@@ -17,16 +17,18 @@ CLOCK=pygame.time.Clock()
 FPS=100
 
 """KHỞI TẠO CÁC BIẾN ĐẦU TIÊN"""
-
+CHANGE_LV_EVT=pygame.USEREVENT+1
 p1=player(0,0,2,4)
 map=TileMap("assets/tilemap/lv1_test.csv")
 level_list_data= [
     ("assets/tilemap/lv1_test.csv",
-     {"start": (800,900),
-      "end1": (1900,400)}),
+     {1: (40,HEIGHT//2),
+      3: (40,HEIGHT-100),
+      2: (WIDTH-30,HEIGHT//2),
+      4: (WIDTH-30,HEIGHT//2)}),
     ("testmap.csv",
-     {"start": (800,800),
-      "end1": (1900,400)})
+     {1: (800,800),
+      3: (1900,400)})
     ]
 levelmanager=LevelManager(level_list_data, p1)
 
@@ -39,10 +41,10 @@ hazards.add(hazard(700,500))
 
 entrances=pygame.sprite.Group()
 entrances.add(
-    entrance(-30, 0, 1,30,HEIGHT//2),
-    entrance(-30, HEIGHT//2, 2,30,HEIGHT//2),
-    entrance(WIDTH+30, 0, 3,30,HEIGHT//2),
-    entrance(WIDTH+30, HEIGHT//2, 4,30,HEIGHT//2)
+    entrance(0, 0, 1,20,HEIGHT//2),
+    entrance(0, HEIGHT//2, 2,20,HEIGHT//2),
+    entrance(WIDTH-20, 0, 3,20,HEIGHT//2),
+    entrance(WIDTH-20, HEIGHT//2, 4,20,HEIGHT//2)
     )
 """KHỞI TẠO ĐẦU TIÊN"""
 pygame.init()
@@ -63,14 +65,17 @@ while running:
     #print(d_time) #SHOW DELTA TIME TO DEBUG
     screen.fill(BGCOLOR)
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+        
             # Nhấn ESC để pause
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                paused = True
             if event.key == pygame.K_r:# Resume khi nhấn R
                paused = False
+        elif event.type == CHANGE_LV_EVT:
+            pass#levelmanager.go_to_level(event.index)
+        if event.type == pygame.QUIT:
+            running = False
     #map.draw_map(screen)
     
     levelmanager.level.draw(screen)
@@ -79,7 +84,8 @@ while running:
         e.in_moving(p1)
     for h in hazards:
         h.draw(screen)
-
+    for en in entrances:
+        en.draw(screen)
     
     p1.draw(screen)
     if paused:

@@ -3,7 +3,7 @@ import pygame
 
 class Level:
     
-    def __init__(self, tilemap_path, spawn_points: dict[str: tuple[int, int]],size):
+    def __init__(self, tilemap_path,size, spawn_points: dict[str: tuple[int, int]]):
         self.tilemap = TileMap(tilemap_path)
         self.spawn_points = spawn_points
 
@@ -18,35 +18,36 @@ class Level:
 
 class LevelManager:
     def __init__(self, level_list, player):
-        """level list is a list: tuple(level_path, {'spawnpoint_name': (x,y) })"""
+        """level list is a list: tuple(level_path, {spawnpoint_index: (x,y) })"""
         self.level_list = level_list
         self.level_index = 0
         self.player = player
         self.need_refresh=False
-        self.load_level(0, spawnpoint_name='start')  # spawn mặc định
+        self.load_level(0, spawnpoint_index=1)  # spawn mặc định
 
-    def load_level(self, lvindex, spawnpoint_name):
-        """load the level number 'lvindex' in level data and place player to spawnpoint [spawnpoint_name]"""
+    def load_level(self, lvindex, spawnpoint_index):
+        """load the level number 'lvindex' in level data and place player to spawnpoint [spawnpoint_index]"""
         #lấy cặp dữ liệu của tuple với path: str, spawnpoints: dict {name: (x,y)}
         path, spawn_points = self.level_list[lvindex]
-        self.level = Level(path, spawn_points,2)
+        self.level = Level(path,2, spawn_points)
         self.level_index = lvindex
-        self.set_player(spawnpoint_name)
+        self.set_player(spawnpoint_index)
         
-    def set_player(self,spawnpoint_name):
-        spawn_pos=self.level.spawn_points.get(spawnpoint_name) #là vector2
+    def set_player(self,spawnpoint_index):
+        spawn_pos=self.level.spawn_points.get(spawnpoint_index) #là vector2
         if spawn_pos:
             self.player.rect.topleft=spawn_pos
             self.player.velocity=pygame.Vector2(0,0)
         else:
             pass
-            #raise ValueError(f"Spawn point '{spawnpoint_name}' not found in level {lvindex}")
+            #raise ValueError(f"Spawn point '{spawnpoint_index}' not found in level {lvindex}")
 
-    def go_to_level (self, lvindex, spawnpoint_name):
-        
-        if self.player.rect.colliderect(gate.rect):
-            self.need_refresh=True
+    def go_to_level (self, spawnpoint_index):
+        if spawnpoint_index==1 or spawnpoint_index==3:
+            lvindex=self.level_index-1
+        elif spawnpoint_index==2 or spawnpoint_index==4:
+            lvindex=self.level_index+1
         if self.need_refresh:
-            self.load_level(lvindex, spawnpoint_name)
+            self.load_level(lvindex, spawnpoint_index)
             self.need_refresh=False
 

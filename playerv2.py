@@ -4,6 +4,7 @@ from pygame.math import Vector2
 from animations import Animator
 from ground_collision import in_collision_x, in_collision_y
 from setting import cd_is_over
+from level import *
 class player:
     """create a player with default moving input method and animation |
     x and y is the topleft position of player when game start,
@@ -111,18 +112,7 @@ class player:
     
     def update_hit(self, enemies, hazards, entrances): #xử lý va chạm
         """this need to put in running loop game"""
-        for entrance in entrances:
-            if self.rect.colliderect(entrance.rect):
-                if entrance.index==1:
-                    pass
-                if entrance.index==2:
-                    pass
-                if entrance.index==3:
-                    pass
-                if entrance.index==4:
-                    pass
         collision_type = self.in_check_hit(enemies) or self.in_check_hit(hazards)
-
         if cd_is_over(self.last_hitted, 1000):
             if collision_type == "enemy":  # Chạm quái vật
                 print("⚔️ Bị quái vật tấn công",pygame.time.get_ticks())
@@ -138,6 +128,10 @@ class player:
                 self.isAlive=False
                 self.velocity.x = 0
                 self.velocity.y = 0
+        for entrance in entrances:
+            if self.rect.colliderect(entrance.rect):
+                pygame.event.post(pygame.event.Event(CHANGE_LV_EVT, {"index":entrance.index}))
+        
 
 
     def draw (self, screen):

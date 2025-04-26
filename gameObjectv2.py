@@ -42,7 +42,7 @@ class enemy (GameObject):
 class hazard (GameObject):
 
     def __init__(self, x, y, width=100, height=40):
-        super().__init__(x, y, width, height, "hazard", BLUE)
+        super().__init__(x, y, width, height, "hazard", (0,0,255,100))
 
 class entrance (GameObject):
     def __init__(self, x, y, index,width= 40, height=200):
