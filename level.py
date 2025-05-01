@@ -3,7 +3,7 @@ import pygame
 
 class Level:
     
-    def __init__(self, tilemap_path,size, spawn_points: dict[str: tuple[int, int]]):
+    def __init__(self, tilemap_path,size, spawn_points: dict[int: tuple[int, int]]):
         self.tilemap = TileMap(tilemap_path)
         self.spawn_points = spawn_points
 
@@ -27,14 +27,14 @@ class LevelManager:
 
     def load_level(self, lvindex, spawnpoint_index):
         """load the level number 'lvindex' in level data and place player to spawnpoint [spawnpoint_index]"""
-        #lấy cặp dữ liệu của tuple với path: str, spawnpoints: dict {name: (x,y)}
+        #lấy cặp dữ liệu của tuple với path: str, spawnpoints: dict {index_number: (x,y)}
         path, spawn_points = self.level_list[lvindex]
         self.level = Level(path,2, spawn_points)
         self.level_index = lvindex
         self.set_player(spawnpoint_index)
         
     def set_player(self,spawnpoint_index):
-        spawn_pos=self.level.spawn_points.get(spawnpoint_index) #là vector2
+        spawn_pos=self.level.spawn_points.get(spawnpoint_index) #-> tuple
         if spawn_pos:
             self.player.rect.topleft=spawn_pos
             self.player.velocity=pygame.Vector2(0,0)
@@ -43,11 +43,19 @@ class LevelManager:
             #raise ValueError(f"Spawn point '{spawnpoint_index}' not found in level {lvindex}")
 
     def go_to_level (self, spawnpoint_index):
-        if spawnpoint_index==1 or spawnpoint_index==3:
-            lvindex=self.level_index-1
-        elif spawnpoint_index==2 or spawnpoint_index==4:
+        
+        next_spawnpoint=1
+        if self.level_index==0: pass
+        else:
+            if spawnpoint_index==1 or spawnpoint_index==3:
+                lvindex=self.level_index-1
+                next_spawnpoint=spawnpoint_index+1
+        if spawnpoint_index==2 or spawnpoint_index==4:
             lvindex=self.level_index+1
-        if self.need_refresh:
-            self.load_level(lvindex, spawnpoint_index)
-            self.need_refresh=False
+            next_spawnpoint=spawnpoint_index-1
+        try:
+            self.load_level(lvindex, next_spawnpoint)
+            print (f"go to level {lvindex} and spawn in {next_spawnpoint} spawnpoint")
+        except:
+            print (f"number level and spawn in {next_spawnpoint} ERROR")
 

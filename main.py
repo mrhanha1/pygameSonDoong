@@ -1,6 +1,6 @@
 import pygame
 from playerv2 import player
-from setting import WIDTH, HEIGHT
+from setting import *
 from gameObjectv2 import enemy, hazard, entrance
 from tile_map import TileMap
 from level import LevelManager
@@ -24,11 +24,13 @@ level_list_data= [
     ("assets/tilemap/lv1_test.csv",
      {1: (40,HEIGHT//2),
       3: (40,HEIGHT-100),
-      2: (WIDTH-30,HEIGHT//2),
-      4: (WIDTH-30,HEIGHT//2)}),
-    ("testmap.csv",
-     {1: (800,800),
-      3: (1900,400)})
+      2: (WIDTH-80,HEIGHT//2-100),
+      4: (WIDTH-80,HEIGHT-100)}),
+    ("assets/tilemap/lv1_riu.csv",
+     {1: (40,HEIGHT//2),
+      3: (40,HEIGHT//2),
+      2: (WIDTH-60,HEIGHT//2),
+      4: (WIDTH-60,HEIGHT//2)})
     ]
 levelmanager=LevelManager(level_list_data, p1)
 
@@ -41,10 +43,10 @@ hazards.add(hazard(700,500))
 
 entrances=pygame.sprite.Group()
 entrances.add(
-    entrance(0, 0, 1,20,HEIGHT//2),
-    entrance(0, HEIGHT//2, 2,20,HEIGHT//2),
-    entrance(WIDTH-20, 0, 3,20,HEIGHT//2),
-    entrance(WIDTH-20, HEIGHT//2, 4,20,HEIGHT//2)
+    entrance(0, 0, 1, 10, HEIGHT//2),
+    entrance(0, HEIGHT//2, 3, 10, HEIGHT//2),
+    entrance(WIDTH-10, 0, 2,10,HEIGHT//2),
+    entrance(WIDTH-10, HEIGHT//2, 4,10,HEIGHT//2)
     )
 """KHỞI TẠO ĐẦU TIÊN"""
 pygame.init()
@@ -73,7 +75,7 @@ while running:
             if event.key == pygame.K_r:# Resume khi nhấn R
                paused = False
         elif event.type == CHANGE_LV_EVT:
-            pass#levelmanager.go_to_level(event.index)
+            levelmanager.go_to_level(event.index)
         if event.type == pygame.QUIT:
             running = False
     #map.draw_map(screen)

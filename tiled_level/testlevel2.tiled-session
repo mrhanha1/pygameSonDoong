@@ -16,6 +16,9 @@
             "dynamicWrapping": true,
             "scaleInDock": 1
         },
+        "#incave": {
+            "dynamicWrapping": false
+        },
         "#vineblock": {
             "scaleInEditor": 1
         },
@@ -59,7 +62,7 @@
     "last.exportedFilePath": "C:/Users/tritr/pygameSonDoong/assets/tilemap",
     "last.externalTilesetPath": "C:/Users/tritr/pygameSonDoong/tiled_level",
     "last.imagePath": "C:/Users/tritr/pygameSonDoong/assets",
-    "map.height": 32,
+    "map.height": 18,
     "map.lastUsedExportFilter": "CSV files (*.csv)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 60,

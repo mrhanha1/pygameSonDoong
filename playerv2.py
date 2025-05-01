@@ -1,5 +1,5 @@
 import pygame
-from setting import WIDTH, HEIGHT
+from setting import *
 from pygame.math import Vector2
 from animations import Animator
 from ground_collision import in_collision_x, in_collision_y
@@ -52,8 +52,11 @@ class player:
         in_collision_x(self, grounds)
         self.rect.y += int(self.velocity.y)*d_time
         in_collision_y(self, grounds)
-        if self.rect.left<=0 or self.rect.right>=WIDTH:
-            self.velocity.x=0
+        """limit moving"""
+        if self.rect.left<=0 and self.velocity.x<0:
+            self.rect.left=0
+        elif self.rect.right>=WIDTH and self.velocity.x>0:
+            self.rect.right=0
         """ANIMATION CONDITION AND UPDATE"""
         if self.isGrounded and self.velocity.x==0:
             self.animator.state="idle"
@@ -131,8 +134,7 @@ class player:
         for entrance in entrances:
             if self.rect.colliderect(entrance.rect):
                 pygame.event.post(pygame.event.Event(CHANGE_LV_EVT, {"index":entrance.index}))
+                #print(f"collide entrance number {entrance.index}")
         
-
-
     def draw (self, screen):
         screen.blit(self.animator.get_avatar(),(self.rect.left-7*self.scale_factor,self.rect.top-6*self.scale_factor))

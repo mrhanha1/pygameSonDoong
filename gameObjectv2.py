@@ -45,6 +45,6 @@ class hazard (GameObject):
         super().__init__(x, y, width, height, "hazard", (0,0,255,100))
 
 class entrance (GameObject):
-    def __init__(self, x, y, index,width= 40, height=200):
+    def __init__(self, x, y, index,width= 20, height=200):
         super().__init__(x,y,width,height,"entrance",WHITE)
         self.index=index
