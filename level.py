@@ -45,7 +45,7 @@ class LevelManager:
     def go_to_level (self, spawnpoint_index):
         
         next_spawnpoint=1
-        if self.level_index==0: pass
+        if self.level_index==0 or self.level_index+1>len(self.level_list): pass
         else:
             if spawnpoint_index==1 or spawnpoint_index==3:
                 lvindex=self.level_index-1
@@ -55,7 +55,6 @@ class LevelManager:
             next_spawnpoint=spawnpoint_index-1
         try:
             self.load_level(lvindex, next_spawnpoint)
-            print (f"go to level {lvindex} and spawn in {next_spawnpoint} spawnpoint")
+            print (f"go to level {lvindex+1} and spawn in spawnpoint number {next_spawnpoint}")
         except:
             print (f"number level and spawn in {next_spawnpoint} ERROR")
-

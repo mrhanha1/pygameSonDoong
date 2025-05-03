@@ -10,7 +10,7 @@ class player:
     x and y is the topleft position of player when game start,
     the size of player depend on size of .png image on animation and scale factor"""
     
-    def __init__(self, x, y, scale_factor=2,move_speed=4):
+    def __init__(self, x, y, scale_factor=2,move_speed=8):
         
         self.frame_w = 31 #self.sprite_sheet.get_width() // self.num_frames
         self.frame_h = 31 #self.sprite_sheet.get_height()

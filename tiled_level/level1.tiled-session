@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "lv1.tmx",
+    "activeFile": "lv3.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -11,20 +11,87 @@
         "": {
             "scaleInDock": 1
         },
+        "lv0.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 883,
+                "y": 330
+            }
+        },
         "lv1.tmx": {
             "scale": 0.7124999999999999,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 960.0000000000001,
+                "x": 959.2982456140353,
                 "y": 540.3508771929825
+            }
+        },
+        "lv2.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 878,
+                "y": 524
+            }
+        },
+        "lv3.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 887.3333333333334,
+                "y": 493.33333333333326
+            }
+        },
+        "lv4.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 959.3333333333331,
+                "y": 582.6666666666667
+            }
+        },
+        "lv5.tmx": {
+            "scale": 0.8371875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 959.7611048898843,
+                "y": 538.7084733109369
+            }
+        },
+        "lv5.tmx#in_cave": {
+            "scaleInDock": 1
+        },
+        "lv6.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 991.3333333333331,
+                "y": 561.3333333333333
+            }
+        },
+        "lv7.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1006,
+                "y": 528
+            }
+        },
+        "lvt.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 991.3333333333331,
+                "y": 561.3333333333333
             }
         },
         "lvtest1.tmx": {
             "scale": 0.8371875,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 959.7611048898845,
-                "y": 539.3057110862262
+                "x": 959.7611048898843,
+                "y": 538.7084733109369
             }
         },
         "lvtest1.tmx#in_cave": {
@@ -39,6 +106,7 @@
     },
     "last.exportedFilePath": "C:/Users/tritr/pygameSonDoong/assets/tilemap",
     "last.externalTilesetPath": "C:/Users/tritr/pygameSonDoong/tiled_level",
+    "last.imagePath": "C:/Users/tritr/pygameSonDoong/assets",
     "map.height": 18,
     "map.lastUsedExportFilter": "CSV files (*.csv)",
     "map.lastUsedFormat": "tmx",
@@ -46,14 +114,27 @@
     "map.tileWidth": 60,
     "map.width": 32,
     "openFiles": [
-        "lvtest1.tmx",
-        "lv1.tmx"
+        "lv0.tmx",
+        "lv1.tmx",
+        "lv2.tmx",
+        "lv3.tmx",
+        "lv4.tmx",
+        "lv5.tmx",
+        "lv6.tmx",
+        "lv7.tmx"
     ],
     "project": "level1.tiled-project",
     "recentFiles": [
-        "lvtest1.tmx",
+        "lv0.tmx",
         "lv1.tmx",
-        "tileset_incave.tsx"
+        "lv2.tmx",
+        "lv7.tmx",
+        "lv6.tmx",
+        "lv5.tmx",
+        "lv4.tmx",
+        "lv3.tmx",
+        "tileset_incave.tsx",
+        "lvtest1.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
