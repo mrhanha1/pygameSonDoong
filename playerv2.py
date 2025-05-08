@@ -57,6 +57,9 @@ class player:
             self.rect.left=0
         elif self.rect.right>=WIDTH and self.velocity.x>0:
             self.rect.right=0
+        if self.rect.bottom>HEIGHT:
+            self.rect.bottom=HEIGHT
+            self.velocity.y=-1
         """ANIMATION CONDITION AND UPDATE"""
         if self.isGrounded and self.velocity.x==0:
             self.animator.state="idle"
@@ -91,7 +94,7 @@ class player:
             self.velocity.x = self.move_speed #sang phải
             self.animator.state="walk"
             #print(self.move_speed)
-
+            
     """OTHER GAME OBJECT COLLISION"""
     def update_knockback(self,d_time):
         if self.is_knock_back:

@@ -38,11 +38,21 @@ class TileMap:
 
     def read_csv(self, filepath):
         map = []
-        with open(os.path.join(filepath)) as data:
-            data = csv.reader(data, delimiter=',')
-            for row in data:
-                map.append(list(row))
-        return map #2d list
+    
+        # Kiểm tra file tồn tại
+        if not os.path.exists(filepath):
+            print(f"Không tìm thấy file: {filepath}")
+            return []
+        try:
+            with open(filepath) as data:
+                data = csv.reader(data, delimiter=',')
+                for row in data:
+                    map.append(list(row))
+            print(f"Đọc file: {filepath}")
+        except Exception as e:
+            print(f"Lỗi khi đọc file {filepath}: {e}")
+        
+        return map
 
     def load_tiles(self, filepath):
         tiles = []
@@ -64,6 +74,16 @@ class TileMap:
                     tiles.append(Tile("assets/vinevineblock.png", x * self.tile_size, y * self.tile_size))
                 elif tile == '4':
                     tiles.append(Tile("assets/wetstoneblock.png", x * self.tile_size, y * self.tile_size))
+                elif tile == '5':
+                    tiles.append(Tile("assets/drystoneblock.png", x * self.tile_size, y * self.tile_size))
+                elif tile == '6':
+                    tiles.append(Tile("assets/darkstoneblock.png", x * self.tile_size, y * self.tile_size))
+                elif tile == '7':
+                    tiles.append(Tile("assets/stalactite.png", x * self.tile_size, y * self.tile_size))
+                elif tile == '8':
+                    tiles.append(Tile("assets/verywetstoneblock.png", x * self.tile_size, y * self.tile_size))
+                elif tile == '7':
+                    tiles.append(Tile("assets/middrystoneblock.png", x * self.tile_size, y * self.tile_size))
                 x += 1
             y += 1
         self.map_w = x * self.tile_size

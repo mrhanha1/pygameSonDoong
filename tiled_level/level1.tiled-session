@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "lv3.tmx",
+    "activeFile": "lv1.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -15,8 +15,8 @@
             "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 883,
-                "y": 330
+                "x": 961,
+                "y": 539
             }
         },
         "lv1.tmx": {
@@ -39,24 +39,24 @@
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 887.3333333333334,
-                "y": 493.33333333333326
+                "x": 923.3333333333331,
+                "y": 529.3333333333333
             }
         },
         "lv4.tmx": {
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 959.3333333333331,
-                "y": 582.6666666666667
+                "x": 960,
+                "y": 540.6666666666666
             }
         },
         "lv5.tmx": {
             "scale": 0.8371875,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 959.7611048898843,
-                "y": 538.7084733109369
+                "x": 960.3583426651737,
+                "y": 540.5001866368049
             }
         },
         "lv5.tmx#in_cave": {
@@ -66,16 +66,16 @@
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 991.3333333333331,
-                "y": 561.3333333333333
+                "x": 960,
+                "y": 540.6666666666666
             }
         },
         "lv7.tmx": {
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1006,
-                "y": 528
+                "x": 960,
+                "y": 540.6666666666666
             }
         },
         "lvt.tmx": {
@@ -126,13 +126,13 @@
     "project": "level1.tiled-project",
     "recentFiles": [
         "lv0.tmx",
-        "lv1.tmx",
-        "lv2.tmx",
         "lv7.tmx",
         "lv6.tmx",
         "lv5.tmx",
         "lv4.tmx",
         "lv3.tmx",
+        "lv2.tmx",
+        "lv1.tmx",
         "tileset_incave.tsx",
         "lvtest1.tmx"
     ],

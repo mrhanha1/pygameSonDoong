@@ -18,19 +18,29 @@ FPS=100
 
 """KHỞI TẠO CÁC BIẾN ĐẦU TIÊN"""
 CHANGE_LV_EVT=pygame.USEREVENT+1
-p1=player(0,0,2,4)
+p1=player(0,0,2,8)
 map=TileMap("assets/tilemap/lv1_test.csv")
 level_list_data= [
-    ("assets/tilemap/lv1_test.csv",
+    ("assets/tilemap/lv0.csv",
      {1: (40,HEIGHT//2),
       3: (40,HEIGHT-100),
       2: (WIDTH-80,HEIGHT//2-100),
       4: (WIDTH-80,HEIGHT-100)}),
-    ("assets/tilemap/lv1_riu.csv",
+    ("assets/tilemap/lv1.csv",
      {1: (40,HEIGHT//2),
       3: (40,HEIGHT//2),
       2: (WIDTH-60,HEIGHT//2),
-      4: (WIDTH-60,HEIGHT//2)})
+      4: (WIDTH-60,HEIGHT//2)}),
+    ("assets/tilemap/lv2.csv",
+     {1: (60,HEIGHT//2),
+      3: (60,HEIGHT//2),
+      2: (WIDTH-80,HEIGHT//2-100),
+      4: (WIDTH-80,HEIGHT-100)}),
+    ("assets/tilemap/lv3.csv",
+     {1: (40,HEIGHT//2-100),
+      3: (40,HEIGHT//2+150),
+      2: (WIDTH-80,HEIGHT//2-100),
+      4: (WIDTH-80,HEIGHT-100)}),
     ]
 levelmanager=LevelManager(level_list_data, p1)
 
@@ -43,10 +53,10 @@ hazards.add(hazard(700,500))
 
 entrances=pygame.sprite.Group()
 entrances.add(
-    entrance(0, 0, 1, 10, HEIGHT//2),
-    entrance(0, HEIGHT//2, 3, 10, HEIGHT//2),
-    entrance(WIDTH-10, 0, 2,10,HEIGHT//2),
-    entrance(WIDTH-10, HEIGHT//2, 4,10,HEIGHT//2)
+    entrance(0, 0, 1, 20, HEIGHT//2),
+    entrance(0, HEIGHT//2, 3, 20, HEIGHT//2),
+    entrance(WIDTH-10, 0, 2,20,HEIGHT//2),
+    entrance(WIDTH-10, HEIGHT//2, 4,20,HEIGHT//2)
     )
 """KHỞI TẠO ĐẦU TIÊN"""
 pygame.init()
@@ -58,6 +68,11 @@ paused=False
 def draw_pause_menu():
     text = font.render("Paused - Press R to Resume", True, (255, 255, 255))
     screen.blit(text, (200, 250))
+def draw_level_text(screen: pygame.Surface, level_index: int, font: pygame.font.Font):
+    """Vẽ tên level hiện tại lên góc trên trái màn hình."""
+    text_surface = font.render(f"Debug print Level {level_index}", True, (255, 255, 255))  # chữ trắng
+    screen.blit(text_surface, (10, 10))  # vẽ tại góc trái trên màn hình
+line=pygame.Rect(0,HEIGHT//2,WIDTH,10)
 """VÒNG LẶP GAME"""
 
 running = True
@@ -88,16 +103,16 @@ while running:
         h.draw(screen)
     for en in entrances:
         en.draw(screen)
-    
+    pygame.draw.rect(screen,WHITE,line)
     p1.draw(screen)
     if paused:
         draw_pause_menu()
     else:
         p1.update_moving(levelmanager.level.get_tiles(), d_time)
         p1.update_hit(enemies, hazards, entrances)
-
+    draw_level_text(screen, levelmanager.level_index, font)
     #pygame.draw.rect(screen, WHITE, p1.rect) #SHOW HITBOX
-    fps = CLOCK.get_fps()
+    #fps = CLOCK.get_fps()
     #print(f"FPS: {fps:.2f}") #SHOW FPS
     pygame.display.update() #update màn hình
     

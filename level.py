@@ -42,19 +42,27 @@ class LevelManager:
             pass
             #raise ValueError(f"Spawn point '{spawnpoint_index}' not found in level {lvindex}")
 
+
     def go_to_level (self, spawnpoint_index):
-        
+        lvindex = self.level_index
         next_spawnpoint=1
-        if self.level_index==0 or self.level_index+1>len(self.level_list): pass
-        else:
-            if spawnpoint_index==1 or spawnpoint_index==3:
+        
+        if spawnpoint_index==1 or spawnpoint_index==3:
+            if self.level_index==0:
+                print("dang o level 0, khong con level truoc")
+                return
+            else:
                 lvindex=self.level_index-1
                 next_spawnpoint=spawnpoint_index+1
-        if spawnpoint_index==2 or spawnpoint_index==4:
-            lvindex=self.level_index+1
-            next_spawnpoint=spawnpoint_index-1
+        elif spawnpoint_index==2 or spawnpoint_index==4:
+            if self.level_index>=len(self.level_list)-4:
+                print("dang o level cuoi, khong con level sau")
+                return
+            else:
+                lvindex=self.level_index+1
+                next_spawnpoint=spawnpoint_index-1
         try:
             self.load_level(lvindex, next_spawnpoint)
             print (f"go to level {lvindex+1} and spawn in spawnpoint number {next_spawnpoint}")
         except:
-            print (f"number level and spawn in {next_spawnpoint} ERROR")
+            print (f"number level {lvindex} and spawn in {next_spawnpoint} ERROR, the final level is {len(self.level_list)}")
