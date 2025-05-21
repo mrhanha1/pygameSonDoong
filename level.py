@@ -51,16 +51,17 @@ class LevelManager:
             if self.level_index==0:
                 print("dang o level 0, khong con level truoc")
                 return
-            else:
-                lvindex=self.level_index-1
-                next_spawnpoint=spawnpoint_index+1
+            
+            lvindex=self.level_index-1
+            next_spawnpoint=spawnpoint_index+1
+            
         elif spawnpoint_index==2 or spawnpoint_index==4:
-            if self.level_index>=len(self.level_list)-4:
+            if self.level_index>=len(self.level_list)-1:
                 print("dang o level cuoi, khong con level sau")
                 return
-            else:
-                lvindex=self.level_index+1
-                next_spawnpoint=spawnpoint_index-1
+            
+            lvindex=self.level_index+1
+            next_spawnpoint=spawnpoint_index-1
         try:
             self.load_level(lvindex, next_spawnpoint)
             print (f"go to level {lvindex+1} and spawn in spawnpoint number {next_spawnpoint}")
