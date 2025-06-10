@@ -82,8 +82,18 @@ class TileMap:
                     tiles.append(Tile("assets/stalactite.png", x * self.tile_size, y * self.tile_size))
                 elif tile == '8':
                     tiles.append(Tile("assets/verywetstoneblock.png", x * self.tile_size, y * self.tile_size))
-                elif tile == '7':
+                elif tile == '9':
                     tiles.append(Tile("assets/middrystoneblock.png", x * self.tile_size, y * self.tile_size))
+                elif tile == '10':
+                    tiles.append(Tile("assets/mossyvineblock.png", x * self.tile_size, y * self.tile_size))
+                elif tile == '11':
+                    tiles.append(Tile("assets/mossywetstoneblock2.png", x * self.tile_size, y * self.tile_size))
+                elif tile == '12':
+                    tiles.append(Tile("assets/mossywetstoneblock.png", x * self.tile_size, y * self.tile_size))
+                elif tile == '13':
+                    tiles.append(Tile("assets/mossysblock.png", x * self.tile_size, y * self.tile_size))
+                elif tile == '14':
+                    tiles.append(Tile("assets/enemy.png", x * self.tile_size, y * self.tile_size))
                 x += 1
             y += 1
         self.map_w = x * self.tile_size

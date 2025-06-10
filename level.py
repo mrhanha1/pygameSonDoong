@@ -40,7 +40,7 @@ class LevelManager:
             self.player.velocity=pygame.Vector2(0,0)
         else:
             pass
-            #raise ValueError(f"Spawn point '{spawnpoint_index}' not found in level {lvindex}")
+            raise ValueError(f"Spawn point '{spawnpoint_index}' not found in level {self.level_index}")
 
 
     def go_to_level (self, spawnpoint_index):
@@ -64,6 +64,6 @@ class LevelManager:
             next_spawnpoint=spawnpoint_index-1
         try:
             self.load_level(lvindex, next_spawnpoint)
-            print (f"go to level {lvindex+1} and spawn in spawnpoint number {next_spawnpoint}")
-        except:
-            print (f"number level {lvindex} and spawn in {next_spawnpoint} ERROR, the final level is {len(self.level_list)}")
+            print (f"go to level {lvindex} and spawn in spawnpoint number {next_spawnpoint}")
+        except (IndexError, ValueError) as e:
+            print(f"Error loading level {lvindex + 1} with spawnpoint {next_spawnpoint}: {e}")

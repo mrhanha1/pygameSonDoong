@@ -10,7 +10,7 @@ class player:
     x and y is the topleft position of player when game start,
     the size of player depend on size of .png image on animation and scale factor"""
     
-    def __init__(self, x, y, scale_factor=2,move_speed=8):
+    def __init__(self, x, y, scale_factor=2,move_speed=4):
         
         self.frame_w = 31 #self.sprite_sheet.get_width() // self.num_frames
         self.frame_h = 31 #self.sprite_sheet.get_height()
@@ -45,12 +45,12 @@ class player:
         self.velocity.x=0
         self.moving()
         #GRAVITY
-        self.velocity.y += self.gravity*d_time
+        self.velocity.y += self.gravity * d_time
         self.update_knockback(d_time)
-        """UPDATE MOVING AND COLLISION"""
-        self.rect.x += int(self.velocity.x)*d_time
+        # UPDATE MOVING AND COLLISION
+        self.rect.x += int(self.velocity.x * d_time)
         in_collision_x(self, grounds)
-        self.rect.y += int(self.velocity.y)*d_time
+        self.rect.y += int(self.velocity.y * d_time)
         in_collision_y(self, grounds)
         """limit moving"""
         if self.rect.left<=0 and self.velocity.x<0:
@@ -108,6 +108,7 @@ class player:
             else:
                 self.is_knock_back=False
                 self.knockback_timer=0
+
     def in_check_hit (self, group):
         """RETURN THE OBJECT TYPE.
         *this need to put in running loop game"""

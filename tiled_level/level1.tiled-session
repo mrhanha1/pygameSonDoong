@@ -16,38 +16,38 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 961,
-                "y": 538
+                "y": 539
             }
         },
         "lv1.tmx": {
             "scale": 0.7124999999999999,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 959.2982456140353,
-                "y": 540.3508771929825
+                "x": 960.0000000000001,
+                "y": 539.6491228070175
             }
         },
         "lv2.tmx": {
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 878,
-                "y": 524
+                "x": 960,
+                "y": 540.6666666666666
             }
         },
         "lv3.tmx": {
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 923.3333333333331,
-                "y": 529.3333333333333
+                "x": 959.9999999999999,
+                "y": 540
             }
         },
         "lv4.tmx": {
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 959.3333333333331,
+                "x": 958.6666666666665,
                 "y": 540
             }
         },
@@ -55,7 +55,7 @@
             "scale": 0.8371875,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 960.9555804404629,
+                "x": 960.3583426651736,
                 "y": 541.0974244120943
             }
         },
@@ -66,7 +66,7 @@
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 959.3333333333331,
+                "x": 959.9999999999999,
                 "y": 540
             }
         },
@@ -74,8 +74,24 @@
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 959.3333333333331,
+                "x": 959.9999999999999,
                 "y": 540
+            }
+        },
+        "lv8.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 959.9999999999999,
+                "y": 540
+            }
+        },
+        "lv9.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 826.6666666666665,
+                "y": 526.6666666666666
             }
         },
         "lvt.tmx": {
@@ -121,7 +137,10 @@
         "lv4.tmx",
         "lv5.tmx",
         "lv6.tmx",
-        "lv7.tmx"
+        "lv7.tmx",
+        "lv8.tmx",
+        "lv9.tmx",
+        "tileset_incave.tsx"
     ],
     "project": "level1.tiled-project",
     "recentFiles": [
@@ -129,11 +148,13 @@
         "lv1.tmx",
         "lv2.tmx",
         "lv3.tmx",
+        "tileset_incave.tsx",
+        "lv9.tmx",
+        "lv8.tmx",
         "lv7.tmx",
         "lv6.tmx",
         "lv5.tmx",
         "lv4.tmx",
-        "tileset_incave.tsx",
         "lvtest1.tmx"
     ],
     "tileset.embedInMap": true,

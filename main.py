@@ -14,18 +14,17 @@ WHITE=(255,255,255)
 BGCOLOR=(25,40,30)
 
 CLOCK=pygame.time.Clock()
-FPS=100
+FPS=60
 
 """KHỞI TẠO CÁC BIẾN ĐẦU TIÊN"""
 CHANGE_LV_EVT=pygame.USEREVENT+1
-p1=player(0,0,2,8)
-map=TileMap("assets/tilemap/lv1_test.csv")
+p1=player(0,0)
 level_list_data= [
     ("assets/tilemap/lv0.csv",
-     {1: (40,HEIGHT//2),
+     {1: (40,HEIGHT-100),
       3: (40,HEIGHT-100),
-      2: (WIDTH-80,HEIGHT//2-100),
-      4: (WIDTH-80,HEIGHT-100)}),
+      2: (WIDTH-80,HEIGHT//2+100),
+      4: (WIDTH-80,HEIGHT//2+100)}),
     ("assets/tilemap/lv1.csv",
      {1: (40,HEIGHT//2),
       3: (40,HEIGHT//2),
@@ -41,6 +40,34 @@ level_list_data= [
       3: (40,HEIGHT//2+150),
       2: (WIDTH-80,HEIGHT//2-100),
       4: (WIDTH-80,HEIGHT-100)}),
+    ("assets/tilemap/lv4.csv",
+     {1: (40,HEIGHT//2-100),
+      3: (40,HEIGHT-150),
+      2: (WIDTH-80,HEIGHT//2-100),
+      4: (WIDTH-80,HEIGHT-100)}),
+    ("assets/tilemap/lv5.csv",
+     {1: (50,HEIGHT//2-200),
+      3: (40,HEIGHT-200),
+      2: (WIDTH-80,150),
+      4: (WIDTH-80,HEIGHT-100)}),
+    ("assets/tilemap/lv6.csv",
+     {1: (50,HEIGHT//2-200),
+      3: (40,HEIGHT-250),
+      2: (WIDTH-80,HEIGHT//2-100),
+      4: (WIDTH-80,HEIGHT//2+150)}),
+    ("assets/tilemap/lv7.csv",
+     {1: (40,HEIGHT//2-250),
+      3: (40,HEIGHT//2+150),
+      2: (WIDTH-80,60),
+      4: (WIDTH-80,60)}),
+    ("assets/tilemap/lv8.csv",
+     {1: (40,HEIGHT-200),
+      3: (40,HEIGHT-200),
+      2: (WIDTH-80,100),
+      4: (WIDTH-80,100)}),
+    ("assets/tilemap/lv9.csv",
+     {1: (40,HEIGHT-200),
+      3: (40,HEIGHT-200),}),
     ]
 levelmanager=LevelManager(level_list_data, p1)
 
@@ -78,11 +105,10 @@ line=pygame.Rect(0,HEIGHT//2,WIDTH,10)
 running = True
 while running:
 
-    d_time=min(CLOCK.tick(FPS)/1000*FPS,2)
+    d_time=d_time = CLOCK.tick(FPS)/10
     #print(d_time) #SHOW DELTA TIME TO DEBUG
     screen.fill(BGCOLOR)
     for event in pygame.event.get():
-        
             # Nhấn ESC để pause
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
@@ -98,7 +124,7 @@ while running:
     levelmanager.level.draw(screen)
     for e in enemies:
         e.draw(screen)
-        e.in_moving(p1)
+        #e.in_moving(p1)
     for h in hazards:
         h.draw(screen)
     for en in entrances:
