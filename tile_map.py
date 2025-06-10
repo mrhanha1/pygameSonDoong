@@ -1,5 +1,6 @@
 import pygame, csv, os
-
+from gameObjectv2 import enemy
+enemies=pygame.sprite.Group()
 class Tile(pygame.sprite.Sprite):
     def __init__(self, path,x,y):
         super().__init__()
@@ -93,7 +94,8 @@ class TileMap:
                 elif tile == '13':
                     tiles.append(Tile("assets/mossysblock.png", x * self.tile_size, y * self.tile_size))
                 elif tile == '14':
-                    tiles.append(Tile("assets/enemy.png", x * self.tile_size, y * self.tile_size))
+                    #pass
+                    enemies.add(enemy(x * self.tile_size, y * self.tile_size))
                 x += 1
             y += 1
         self.map_w = x * self.tile_size

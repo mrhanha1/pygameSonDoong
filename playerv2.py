@@ -10,7 +10,7 @@ class player:
     x and y is the topleft position of player when game start,
     the size of player depend on size of .png image on animation and scale factor"""
     
-    def __init__(self, x, y, scale_factor=2,move_speed=4):
+    def __init__(self, x, y, scale_factor=2,move_speed=700):
         
         self.frame_w = 31 #self.sprite_sheet.get_width() // self.num_frames
         self.frame_h = 31 #self.sprite_sheet.get_height()
@@ -29,8 +29,8 @@ class player:
         #PlaYER moVEment VAriaAble
         self.move_speed=move_speed
         self.velocity=Vector2(0,0)
-        self.gravity=0.35
-        self.jump_force=-10
+        self.gravity=1700
+        self.jump_force=-700
         self.isGrounded=False
         self.knockback_timer=0
         self.is_knock_back=False
@@ -99,11 +99,11 @@ class player:
     def update_knockback(self,d_time):
         if self.is_knock_back:
             """VÀO ĐÂY ĐỂ SET THỜI GIAN BỊ KNOCKBACK"""
-            if self.knockback_timer<15:
+            if self.knockback_timer<.1:
                 #pygame.time.wait(100) #hitstop time
-                self.velocity.x-=self.move_speed*d_time*1.5
+                self.velocity.x=-self.move_speed*d_time*60
                 #self.velocity.y=0
-                self.velocity.y=-12*self.gravity*d_time
+                self.velocity.y=-8*self.gravity*d_time
                 self.knockback_timer+=d_time
             else:
                 self.is_knock_back=False

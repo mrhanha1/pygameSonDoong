@@ -4,6 +4,7 @@ from setting import *
 from gameObjectv2 import enemy, hazard, entrance
 from tile_map import TileMap
 from level import LevelManager
+from particle import ParticleSystem
 #ĐỊNH NGHĨA CÁC MÀU CẦN DÙNG
 GRAY=(200, 200, 200)
 BROWN=(139,93,0)
@@ -14,7 +15,7 @@ WHITE=(255,255,255)
 BGCOLOR=(25,40,30)
 
 CLOCK=pygame.time.Clock()
-FPS=60
+FPS=100
 
 """KHỞI TẠO CÁC BIẾN ĐẦU TIÊN"""
 CHANGE_LV_EVT=pygame.USEREVENT+1
@@ -31,10 +32,10 @@ level_list_data= [
       2: (WIDTH-60,HEIGHT//2),
       4: (WIDTH-60,HEIGHT//2)}),
     ("assets/tilemap/lv2.csv",
-     {1: (60,HEIGHT//2),
-      3: (60,HEIGHT//2),
-      2: (WIDTH-80,HEIGHT//2-100),
-      4: (WIDTH-80,HEIGHT-100)}),
+     {1: (40,HEIGHT//2),
+      3: (40,HEIGHT//2),
+      2: (WIDTH-80,100),
+      4: (WIDTH-80,HEIGHT-250)}),
     ("assets/tilemap/lv3.csv",
      {1: (40,HEIGHT//2-100),
       3: (40,HEIGHT//2+150),
@@ -42,7 +43,7 @@ level_list_data= [
       4: (WIDTH-80,HEIGHT-100)}),
     ("assets/tilemap/lv4.csv",
      {1: (40,HEIGHT//2-100),
-      3: (40,HEIGHT-150),
+      3: (60,HEIGHT-160),
       2: (WIDTH-80,HEIGHT//2-100),
       4: (WIDTH-80,HEIGHT-100)}),
     ("assets/tilemap/lv5.csv",
@@ -71,7 +72,6 @@ level_list_data= [
     ]
 levelmanager=LevelManager(level_list_data, p1)
 
-
 enemies=pygame.sprite.Group()
 enemies.add(enemy(200, 500),
             enemy(850, 800))
@@ -80,12 +80,24 @@ hazards.add(hazard(700,500))
 
 entrances=pygame.sprite.Group()
 entrances.add(
-    entrance(0, 0, 1, 20, HEIGHT//2),
-    entrance(0, HEIGHT//2, 3, 20, HEIGHT//2),
-    entrance(WIDTH-10, 0, 2,20,HEIGHT//2),
-    entrance(WIDTH-10, HEIGHT//2, 4,20,HEIGHT//2)
+    entrance(-20, 0, 1, 50, HEIGHT//2),
+    entrance(-20, HEIGHT//2, 3, 50, HEIGHT//2),
+    entrance(WIDTH-30, 0, 2,60,HEIGHT//2),
+    entrance(WIDTH-30, HEIGHT//2, 4,60,HEIGHT//2)
     )
-"""KHỞI TẠO ĐẦU TIÊN"""
+
+
+
+particle_system = ParticleSystem(pool_size=200)
+polygon = [(1260, 0), (1680, 0), (1440, HEIGHT), (840, HEIGHT)]
+particle_system.start_dust_effect(polygon)
+particle_system.add_water_spawn(1, x=500, y=100)
+particle_system.add_water_spawn(2, x=600, y=150)
+sunlight=pygame.Surface((WIDTH,HEIGHT),pygame.SRCALPHA)
+
+
+
+"""KHỞI TẠO GAME"""
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("GÊm sỐ 1")
@@ -105,7 +117,7 @@ line=pygame.Rect(0,HEIGHT//2,WIDTH,10)
 running = True
 while running:
 
-    d_time=d_time = CLOCK.tick(FPS)/10
+    d_time=d_time = CLOCK.tick(FPS)/1000
     #print(d_time) #SHOW DELTA TIME TO DEBUG
     screen.fill(BGCOLOR)
     for event in pygame.event.get():
@@ -119,7 +131,12 @@ while running:
             levelmanager.go_to_level(event.index)
         if event.type == pygame.QUIT:
             running = False
-    #map.draw_map(screen)
+
+    
+    
+    particle_system.update(d_time, dust_bounds=polygon)
+    particle_system.draw(screen)
+    
     
     levelmanager.level.draw(screen)
     for e in enemies:
@@ -136,7 +153,12 @@ while running:
     else:
         p1.update_moving(levelmanager.level.get_tiles(), d_time)
         p1.update_hit(enemies, hazards, entrances)
+    pygame.draw.polygon(sunlight, (255,255,180,40), polygon)
+    screen.blit(sunlight, (0,0))
+    
+    
     draw_level_text(screen, levelmanager.level_index, font)
+    
     #pygame.draw.rect(screen, WHITE, p1.rect) #SHOW HITBOX
     #fps = CLOCK.get_fps()
     #print(f"FPS: {fps:.2f}") #SHOW FPS
