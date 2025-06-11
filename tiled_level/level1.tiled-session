@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "lv9.tmx",
+    "activeFile": "lv1.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -24,15 +24,15 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 960.0000000000001,
-                "y": 539.6491228070175
+                "y": 538.9473684210526
             }
         },
         "lv2.tmx": {
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 959.9999999999999,
-                "y": 540
+                "x": 960,
+                "y": 540.6666666666666
             }
         },
         "lv3.tmx": {
@@ -47,16 +47,16 @@
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 960,
-                "y": 540.6666666666666
+                "x": 959.9999999999999,
+                "y": 540
             }
         },
         "lv5.tmx": {
             "scale": 0.8371875,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 960.3583426651736,
-                "y": 541.0974244120943
+                "x": 960.3583426651737,
+                "y": 540.5001866368049
             }
         },
         "lv5.tmx#in_cave": {
@@ -66,24 +66,24 @@
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 959.9999999999999,
-                "y": 540
+                "x": 960,
+                "y": 540.6666666666666
             }
         },
         "lv7.tmx": {
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 959.9999999999999,
-                "y": 540
+                "x": 960,
+                "y": 540.6666666666666
             }
         },
         "lv8.tmx": {
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 959.9999999999999,
-                "y": 540
+                "x": 960,
+                "y": 540.6666666666666
             }
         },
         "lv9.tmx": {
@@ -145,16 +145,16 @@
     "project": "level1.tiled-project",
     "recentFiles": [
         "lv0.tmx",
-        "lv1.tmx",
-        "lv2.tmx",
-        "lv3.tmx",
-        "lv4.tmx",
-        "lv5.tmx",
-        "lv6.tmx",
-        "lv7.tmx",
-        "lv8.tmx",
         "tileset_incave.tsx",
         "lv9.tmx",
+        "lv8.tmx",
+        "lv7.tmx",
+        "lv6.tmx",
+        "lv5.tmx",
+        "lv4.tmx",
+        "lv3.tmx",
+        "lv2.tmx",
+        "lv1.tmx",
         "lvtest1.tmx"
     ],
     "tileset.embedInMap": true,

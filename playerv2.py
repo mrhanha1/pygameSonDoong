@@ -10,7 +10,7 @@ class player:
     x and y is the topleft position of player when game start,
     the size of player depend on size of .png image on animation and scale factor"""
     
-    def __init__(self, x, y, scale_factor=2,move_speed=700):
+    def __init__(self, x, y, scale_factor=2,move_speed=350):
         
         self.frame_w = 31 #self.sprite_sheet.get_width() // self.num_frames
         self.frame_h = 31 #self.sprite_sheet.get_height()
@@ -29,8 +29,8 @@ class player:
         #PlaYER moVEment VAriaAble
         self.move_speed=move_speed
         self.velocity=Vector2(0,0)
-        self.gravity=1700
-        self.jump_force=-700
+        self.gravity=2500
+        self.jump_force=-900
         self.isGrounded=False
         self.knockback_timer=0
         self.is_knock_back=False
@@ -117,12 +117,12 @@ class player:
                 return obj.type  # trả về loại đối tượng bị va chạm
         return None  # k va chạm
     
-    def update_hit(self, enemies, hazards, entrances): #xử lý va chạm
+    def update_hit(self, gameobjects, entrances): #xử lý va chạm
         """this need to put in running loop game"""
-        collision_type = self.in_check_hit(enemies) or self.in_check_hit(hazards)
+        collision_type = self.in_check_hit(gameobjects)
         if cd_is_over(self.last_hitted, 1000):
             if collision_type == "enemy":  # Chạm quái vật
-                print("⚔️ Bị quái vật tấn công",pygame.time.get_ticks())
+                print("Bị quái vật tấn công",pygame.time.get_ticks())
                 self.is_knock_back=True
                 #self.hitstop=True
                 #self.hitstop_timer=0
@@ -130,7 +130,7 @@ class player:
                 self.last_hitted=pygame.time.get_ticks()
                 
             elif collision_type == "hazard":  # Chạm vật nguy hiểm (nước/gai)
-                print("💀 Chết",pygame.time.get_ticks())
+                print("Chết",pygame.time.get_ticks())
                 self.animator.state='dead'
                 self.isAlive=False
                 self.velocity.x = 0
@@ -138,6 +138,7 @@ class player:
         for entrance in entrances:
             if self.rect.colliderect(entrance.rect):
                 pygame.event.post(pygame.event.Event(CHANGE_LV_EVT, {"index":entrance.index}))
+                break
                 #print(f"collide entrance number {entrance.index}")
         
     def draw (self, screen):

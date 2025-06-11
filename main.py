@@ -1,10 +1,11 @@
 import pygame
 from playerv2 import player
 from setting import *
-from gameObjectv2 import enemy, hazard, entrance
+from gameObjectv2 import entrance
 from tile_map import TileMap
 from level import LevelManager
-from particle import ParticleSystem
+from vfx import VFXManager
+
 #ĐỊNH NGHĨA CÁC MÀU CẦN DÙNG
 GRAY=(200, 200, 200)
 BROWN=(139,93,0)
@@ -19,6 +20,7 @@ FPS=100
 
 """KHỞI TẠO CÁC BIẾN ĐẦU TIÊN"""
 CHANGE_LV_EVT=pygame.USEREVENT+1
+
 p1=player(0,0)
 level_list_data= [
     ("assets/tilemap/lv0.csv",
@@ -29,8 +31,8 @@ level_list_data= [
     ("assets/tilemap/lv1.csv",
      {1: (40,HEIGHT//2),
       3: (40,HEIGHT//2),
-      2: (WIDTH-60,HEIGHT//2),
-      4: (WIDTH-60,HEIGHT//2)}),
+      2: (WIDTH-40,HEIGHT//2),
+      4: (WIDTH-40,HEIGHT//2)}),
     ("assets/tilemap/lv2.csv",
      {1: (40,HEIGHT//2),
       3: (40,HEIGHT//2),
@@ -42,7 +44,7 @@ level_list_data= [
       2: (WIDTH-80,HEIGHT//2-100),
       4: (WIDTH-80,HEIGHT-100)}),
     ("assets/tilemap/lv4.csv",
-     {1: (40,HEIGHT//2-100),
+     {1: (50,HEIGHT//2-120),
       3: (60,HEIGHT-160),
       2: (WIDTH-80,HEIGHT//2-100),
       4: (WIDTH-80,HEIGHT-100)}),
@@ -71,31 +73,17 @@ level_list_data= [
       3: (40,HEIGHT-200),}),
     ]
 levelmanager=LevelManager(level_list_data, p1)
-
-enemies=pygame.sprite.Group()
-enemies.add(enemy(200, 500),
-            enemy(850, 800))
-hazards=pygame.sprite.Group()
-hazards.add(hazard(700,500))
+levelmanager.load_level(1, 2)
 
 entrances=pygame.sprite.Group()
 entrances.add(
-    entrance(-20, 0, 1, 50, HEIGHT//2),
-    entrance(-20, HEIGHT//2, 3, 50, HEIGHT//2),
-    entrance(WIDTH-30, 0, 2,60,HEIGHT//2),
-    entrance(WIDTH-30, HEIGHT//2, 4,60,HEIGHT//2)
+    entrance(-40, 0, 1, 50, HEIGHT//2),
+    entrance(-40, HEIGHT//2, 3, 50, HEIGHT//2),
+    entrance(WIDTH-10, 0, 2,60,HEIGHT//2),
+    entrance(WIDTH-10, HEIGHT//2, 4,60,HEIGHT//2)
     )
 
-
-
-particle_system = ParticleSystem(pool_size=200)
-polygon = [(1260, 0), (1680, 0), (1440, HEIGHT), (840, HEIGHT)]
-particle_system.start_dust_effect(polygon)
-particle_system.add_water_spawn(1, x=500, y=100)
-particle_system.add_water_spawn(2, x=600, y=150)
-sunlight=pygame.Surface((WIDTH,HEIGHT),pygame.SRCALPHA)
-
-
+vfxmanager=VFXManager()
 
 """KHỞI TẠO GAME"""
 pygame.init()
@@ -111,7 +99,6 @@ def draw_level_text(screen: pygame.Surface, level_index: int, font: pygame.font.
     """Vẽ tên level hiện tại lên góc trên trái màn hình."""
     text_surface = font.render(f"Debug print Level {level_index}", True, (255, 255, 255))  # chữ trắng
     screen.blit(text_surface, (10, 10))  # vẽ tại góc trái trên màn hình
-line=pygame.Rect(0,HEIGHT//2,WIDTH,10)
 """VÒNG LẶP GAME"""
 
 running = True
@@ -129,34 +116,26 @@ while running:
                paused = False
         elif event.type == CHANGE_LV_EVT:
             levelmanager.go_to_level(event.index)
+        if event.type== CHANGE_VFX:
+            levelmanager.level.tilemap
         if event.type == pygame.QUIT:
             running = False
 
-    
-    
-    particle_system.update(d_time, dust_bounds=polygon)
-    particle_system.draw(screen)
-    
-    
-    levelmanager.level.draw(screen)
-    for e in enemies:
-        e.draw(screen)
-        #e.in_moving(p1)
-    for h in hazards:
-        h.draw(screen)
-    for en in entrances:
-        en.draw(screen)
-    pygame.draw.rect(screen,WHITE,line)
+
     p1.draw(screen)
+    vfxmanager.update(d_time,levelmanager.level_index)
+    vfxmanager.draw(levelmanager.level_index, screen)
+    levelmanager.level.draw(screen)
+    for en in entrances:
+        pass#en.draw(screen)
+
     if paused:
         draw_pause_menu()
     else:
         p1.update_moving(levelmanager.level.get_tiles(), d_time)
-        p1.update_hit(enemies, hazards, entrances)
-    pygame.draw.polygon(sunlight, (255,255,180,40), polygon)
-    screen.blit(sunlight, (0,0))
-    
-    
+        p1.update_hit(levelmanager.level.tilemap.game_objects, entrances)
+        levelmanager.level.update(d_time, p1)
+
     draw_level_text(screen, levelmanager.level_index, font)
     
     #pygame.draw.rect(screen, WHITE, p1.rect) #SHOW HITBOX

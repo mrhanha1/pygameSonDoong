@@ -1,5 +1,6 @@
 import pygame
 from pygame import Vector2
+from ground_collision import in_collision_x
 GRAY=(200, 200, 200)
 BROWN=(139,93,0)
 RED=(255,0,0)
@@ -25,19 +26,36 @@ class enemy (GameObject):
         super().__init__(x, y, width, height, "enemy", RED)
         self.gravity=0
         self.velocity=Vector2(0,0)
-        self.movespeed=2
+        self.movespeed=150
+        self.direction = 1
         
-    def in_moving(self,player,view_range=500):
-        self.velocity.x=0
-        if abs(self.rect.x-player.rect.x)<view_range:
-            #print("quai vat nhin thay ban")
-            if self.rect.x<player.rect.centerx:
-                self.velocity.x=self.movespeed
-            elif self.rect.x>player.rect.centerx:
-                self.velocity.x=-self.movespeed
-        self.velocity.y+=self.gravity
-        self.rect.x+=self.velocity.x
-        self.rect.y+=self.velocity.y
+    
+
+    def in_moving(self, player, d_time, tiles, view_range=500):
+
+        if abs(self.rect.x - player.rect.x) < view_range: #neu nam trong pham vi nhin
+            # di theo player
+            if self.rect.x < player.rect.centerx:
+                self.velocity.x = self.movespeed
+                self.direction = 1
+            elif self.rect.x > player.rect.centerx:
+                self.velocity.x = -self.movespeed
+                self.direction = -1
+        else:
+            # di tu nhien
+            self.velocity.x = self.movespeed * self.direction
+
+        # update vi tri
+        prev_x = self.rect.x
+        self.rect.x += int(self.velocity.x * d_time)
+
+        # kt va cham va dao huong di chuyen
+        in_collision_x(self,tiles)
+        if self.rect.x == prev_x:  # neu cham tile
+            self.direction *= -1  # di nguoc lai
+            self.velocity.x = self.movespeed * self.direction
+
+
 
 class hazard (GameObject):
 

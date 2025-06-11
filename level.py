@@ -1,14 +1,15 @@
 from tile_map import TileMap
 import pygame
-
+from particle import ParticleSystem
+from setting import HEIGHT, WIDTH
 class Level:
     
     def __init__(self, tilemap_path,size, spawn_points: dict[int: tuple[int, int]]):
         self.tilemap = TileMap(tilemap_path)
         self.spawn_points = spawn_points
 
-    def update(self):
-        pass  # sau này có thể thêm logic enemy, camera, events...
+    def update(self,d_time,player):
+        self.tilemap.update_Obj(d_time, player)
 
     def draw(self, surface):
         self.tilemap.draw_map(surface)
@@ -23,7 +24,11 @@ class LevelManager:
         self.level_index = 0
         self.player = player
         self.need_refresh=False
+        
         self.load_level(0, spawnpoint_index=1)  # spawn mặc định
+
+    def update(self,d_time):
+        self.level.update(d_time, self.player)
 
     def load_level(self, lvindex, spawnpoint_index):
         """load the level number 'lvindex' in level data and place player to spawnpoint [spawnpoint_index]"""

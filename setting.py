@@ -6,4 +6,4 @@ def cd_is_over (last_time, duration):
 CHANGE_LV_EVT = pygame.USEREVENT + 1
 PLAYER_DEAD_EVT = pygame.USEREVENT + 2
 LEVEL_WIN_EVT = pygame.USEREVENT + 3
-# v.v. thêm sau nếu cần
+CHANGE_VFX=pygame.USEREVENT+4

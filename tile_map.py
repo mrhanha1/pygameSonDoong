@@ -1,6 +1,11 @@
 import pygame, csv, os
 from gameObjectv2 import enemy
+from setting import HEIGHT
+from particle import ParticleSystem
+
+
 enemies=pygame.sprite.Group()
+
 class Tile(pygame.sprite.Sprite):
     def __init__(self, path,x,y):
         super().__init__()
@@ -21,16 +26,22 @@ class TileMap:
         #tile grid = 64 -> tile size = 15
         self.tile_size = 60
         self.start_x, self.start_y = 0, 0
-        self.tiles = self.load_tiles(filepath)
+        self.tiles,self.game_objects = self.load_tiles(filepath)
+        
         
         self.map_surface = pygame.Surface((self.map_w, self.map_h)) #cai nay phai chay sau load tiles
-        self.map_surface.set_colorkey((0, 0, 0)) #key mau den của nền
-        
-        #self.load_map()
+        self.map_surface.set_colorkey((0, 0, 0)) #key mau den của surface
 
     def draw_map(self, surface):
         for tile in self.tiles:
             tile.draw(surface)
+        for obj in self.game_objects:
+            obj.draw(surface)
+            
+    def update_Obj(self,d_time,player):
+        for obj in self.game_objects:
+            if isinstance(obj, enemy):
+                obj.in_moving(player,d_time,self.tiles, view_range=500)
 
     def load_map(self):
         """this just need to load 1 time before game running"""
@@ -57,6 +68,7 @@ class TileMap:
 
     def load_tiles(self, filepath):
         tiles = []
+        enemies = pygame.sprite.Group()
         map_data = self.read_csv(filepath)
         x, y = 0, 0
         for row in map_data:
@@ -94,10 +106,9 @@ class TileMap:
                 elif tile == '13':
                     tiles.append(Tile("assets/mossysblock.png", x * self.tile_size, y * self.tile_size))
                 elif tile == '14':
-                    #pass
                     enemies.add(enemy(x * self.tile_size, y * self.tile_size))
                 x += 1
             y += 1
         self.map_w = x * self.tile_size
         self.map_h = y * self.tile_size
-        return tiles
+        return tiles, enemies
